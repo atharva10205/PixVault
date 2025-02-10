@@ -13,6 +13,7 @@ const Car = () => {
         const response = await axios.get(
           "http://localhost:5000/fetchcarimages"
         );
+        //f h
         setImages(response.data);
       } catch (error) {
         console.log("Error in frontend fetchcarimages", error);
