@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useGoogleLogin } from "@react-oauth/google";
+
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,6 +36,37 @@ const Signup = () => {
       }
     }
   };
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: (response) => {
+      const accesstoken = response.access_token;  
+      console.log("Access token received:", accesstoken);
+  
+      const sendaccestoken = async () => {
+        try {
+          const response = await axios.post(
+            `http://localhost:5000/sendaccestoken/${accesstoken}`,
+            {},
+            { withCredentials: true }
+          );
+  
+          if (response.data.message === "User registered successfully") {
+            navigate("/Home");
+          } else {
+            console.log("Error message:", response.data.message);
+            setErrorMessage(response.data.message || "Unexpected error");
+          }
+        } catch (error) {
+          console.error("Error sending access token to backend:", error);
+        }
+      };
+  
+      sendaccestoken();
+    },
+    onError: (error) => {
+      console.error("Google Login Error:", error);
+    },
+  });
 
   return (
     <div className="min-h-screen bg-pink-100 flex items-center justify-center">
@@ -117,6 +150,18 @@ const Signup = () => {
             Login
           </button>
         </p>
+        
+        <div className="mt-6 text-center">
+          Or signup with Google:
+          <button
+            className="text-blue-400 hover:underline ml-2"
+            onClick={handleGoogleLogin}
+          >
+            Google Login
+          </button>
+        </div>
+
+        
       </div>
     </div>
   );

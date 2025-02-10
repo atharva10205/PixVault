@@ -9,10 +9,10 @@ const Profile = () => {
   const location = useLocation();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState(null);
-  const [ProfilePictureUrl, setProfilePictureUrl] = useState(null);
+  const [username, setUsername] = useState();
+  const [ProfilePictureUrl, setProfilePictureUrl] = useState();
   const [ProfilePicturechange, setProfilePicturechange] = useState("");
-  const [modalImagePreview, setModalImagePreview] = useState(null); // New state for modal preview
+  const [modalImagePreview, setModalImagePreview] = useState(); // New state for modal preview
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [settingmodal, setsettingmodal] = useState(false);
   const [darkmodemodal, setdarkmodemodal] = useState(true);
@@ -126,21 +126,13 @@ const Profile = () => {
     fetchprofilephoto();
   }, []);
 
-  useEffect(() => {
-  console.log(userId)
-  }, [userId])
+  
 
   const handlesettingclick = () => {
     setsettingmodal((prev) => !prev);
   };
 
-  const setdarkmode = () => {
-    const darkmodeswitch = async () => {
-      const response = await axios.post("http://localhost:5000/darkmodeswitch");
-      setdarkmodemodal((prev) => !prev); 
-    };
-  };
-
+ 
   useEffect(() => {
     const cheaknumberoffollowers = async () => {
       try {

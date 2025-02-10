@@ -8,6 +8,44 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 require('dotenv').config();
+const axios = require('axios');
+
+const http = require("http");
+const { Server } = require("socket.io");
+const server = http.createServer(app);
+
+server.listen(5001, () => {
+    console.log(`Server is running on port ${process.env.PORT}`);
+});
+
+
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173", 
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
+
+io.on("connection", (socket) => {
+    console.log("A user connected:", socket.id);
+  
+    socket.on("joinRoom", (room) => {
+      socket.join(room);
+      
+    });
+  
+    socket.on("sendMessage", ({ room, message, sender }) => {
+      io.to(room).emit("receiveMessage", { message, sender });
+      
+    });
+  
+    socket.on("disconnect", () => {
+      
+    });
+  });
+
 
 
 const rekognition = new AWS.Rekognition({
@@ -38,6 +76,57 @@ const saveschema = new mongoose.Schema({
     objectId:String,
 });
 const savedatabase = mongoose.model('save', saveschema);
+
+
+const followerschema = new mongoose.Schema({
+    
+    userId: String,
+    followerId : String,
+    followerusername:String,
+    followersPFP : String,
+});
+const followerdatabase = mongoose.model('followers', followerschema);
+
+const profilePictureSchema = new mongoose.Schema({
+    userId: String,
+    imageUrl: String,
+});
+
+const ProfilePicture = mongoose.model('pfp', profilePictureSchema);
+
+const commentsectionschema = new mongoose.Schema({
+    objectId: String,
+    commentinput: String,
+    fetchCommentusername:String,
+    userid:String,
+    currentusersprofilepicture:String,
+});
+const CommentSchema = mongoose.model('comment', commentsectionschema);
+
+const userschema  = new mongoose.Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    password: { type: String}
+});
+const user = mongoose.model('User',userschema);
+
+const messageSchema = new mongoose.Schema(
+    {
+      roomID: { type: String, required: true },
+      sendername: { type: String, required: true },
+      sendernameID: { type: String, required: true },
+      senderPFP: { type: String, required: true },
+      receivername: { type: String, required: true },
+      receivernameID: { type: String, required: true },
+      reciverPFP: { type: String, required: true },
+      message: { type: String, required: true },
+      timestamp: { type: Date, default: Date.now },
+    },
+    { timestamps: true }
+  );
+  
+  const Message = mongoose.model('Message', messageSchema);
+
 
 
 const s3 = new AWS.S3({
@@ -228,12 +317,7 @@ app.get('/getsimillarimages/:objectId', async (req, res) => {
     }
 });
 
-const profilePictureSchema = new mongoose.Schema({
-    userId: String,
-    imageUrl: String,
-});
 
-const ProfilePicture = mongoose.model('pfp', profilePictureSchema);
 
 
 const uploadProfile = upload.single('profilePicture');
@@ -334,14 +418,6 @@ app.get('/fetchdescription/:objectId', async (req, res) => {
     }
 });
 
-const commentsectionschema = new mongoose.Schema({
-    objectId: String,
-    commentinput: String,
-    fetchCommentusername:String,
-    userid:String,
-    currentusersprofilepicture:String,
-});
-const CommentSchema = mongoose.model('comment', commentsectionschema);
 
 app.post('/putcommentinDB', async (req, res) => {
     const { objectId, commentinput, fetchCommentusername, userid, currentusersprofilepicture } = req.body;
@@ -381,12 +457,7 @@ app.get('/fetchcomments/:objectId', async (req, res) => {
   });
   
 
-const userschema  = new mongoose.Schema({
-    username: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: true }
-});
-const user = mongoose.model('User',userschema);
+
 
 
 
@@ -557,6 +628,7 @@ router.post('/username',async(req,res) =>{
         }
 
         res.status(200).json({ username: existingUser.username });
+
     } catch (error){
         console.log(error);
     }
@@ -785,18 +857,11 @@ app.get('/fetchcurentusersprofilepicture', async(req,res)=>{
     }
 })
 
-const followerschema = new mongoose.Schema({
-    
-    userId: String,
-    followerId : String,
-});
-const followerdatabase = mongoose.model('followers', followerschema);
 
-
-app.post('/handlefollowebutton/:pfpuserid', async(req, res) => {
+app.post('/handlefollowebutton/:pfpuserid', async (req, res) => {
     const { pfpuserid } = req.params;
     const token = req.cookies.token;
-    const userId = get_user_id_from_token(token); 
+    const userId = get_user_id_from_token(token);
 
     try {
         const existingFollow = await followerdatabase.findOne({
@@ -808,9 +873,17 @@ app.post('/handlefollowebutton/:pfpuserid', async(req, res) => {
             return res.status(400).json({ message: 'Already following' });
         }
 
+        const followersusername1 = await user.findById(userId);
+        const followersusername = followersusername1.username;
+
+        const followerspfp1 = await ProfilePicture.findOne({ userId: userId });
+        const followerspfp = followerspfp1?.imageUrl || 'https://cdn-icons-png.freepik.com/512/8861/8861091.png';
+
         const response = new followerdatabase({
             userId: pfpuserid,
             followerId: userId,
+            followerusername: followersusername,
+            followersPFP: followerspfp,
         });
 
         await response.save();
@@ -820,6 +893,7 @@ app.post('/handlefollowebutton/:pfpuserid', async(req, res) => {
         return res.status(500).json({ message: 'Error in follow action', error });
     }
 });
+
 
 
 app.get('/checkifFollowing/:pfpuserid', async (req, res) => {
@@ -881,8 +955,6 @@ app.get('/cheaknumberoffollowers/:pfpuserid', async (req, res) => {
 
 app.get('/cheaknumberoffollowers/:userId', async (req, res) => {
     const { userId } = req.params;
-
-    
     try {
         const count = await followerdatabase.countDocuments({ userId:  userId });
         res.status(200).json({ count });
@@ -893,6 +965,7 @@ app.get('/cheaknumberoffollowers/:userId', async (req, res) => {
 
 
 app.get('/fetchfollowerslist/:pfpuserid', async (req, res) => {
+
     const { pfpuserid } = req.params;
     try {
         const response = await followerdatabase.find({ userId: pfpuserid });
@@ -915,7 +988,87 @@ app.get('/fetchfollowerslist/:pfpuserid', async (req, res) => {
     }
 });
 
-app.get('/fetchfollowerslist/:userId', async (req, res) => {
+app.get('/fetchfollowerslist11/:userId', async (req, res) => {
+    const { userId } = req.params;
+    try {
+        // Fetch all followers' IDs for the user
+        const response = await followerdatabase.find({ userId });
+        const followersIdList = response.map(doc => doc.followerId);
+
+        // Fetch usernames for all followers
+        const fetchUsernames = await user.find({ _id: { $in: followersIdList } });
+        const usernamelist = fetchUsernames.map(doc => doc.username);
+
+        // Fetch profile picture URLs for all followers
+        const fetchFollowersPfpUrl = await ProfilePicture.find({ userId: { $in: followersIdList } });
+        const followersPfpUrls = fetchFollowersPfpUrl.map(doc => doc.imageUrl);
+
+        res.status(200).json({
+            followersId: followersIdList,
+            usernames: usernamelist,
+            profilePictureUrls: followersPfpUrls,
+        });
+    } catch (error) {
+        console.error('Error in fetchfollowerslist:', error);
+        res.status(500).json({ error: 'Failed to fetch followers list' });
+    }
+});
+
+
+app.post('/sendaccestoken/:accesstoken', async (req, res) => {
+    const { accesstoken } = req.params;
+  
+    try {
+      const response = await axios.get(
+        'https://www.googleapis.com/oauth2/v1/userinfo?alt=json',
+        {
+          headers: {
+            Authorization: `Bearer ${accesstoken}`,
+          },
+        }
+      );
+  
+      const userInfo = response.data;
+  
+      const usermail = userInfo.email;
+      const existingUser = await user.findOne({ email: usermail });
+
+      const tokenValidationUrl = `https://oauth2.googleapis.com/tokeninfo?access_token=${accesstoken}`;
+try {
+    const validationResponse = await axios.get(tokenValidationUrl);
+    console.log("Token validated:", validationResponse.data);
+} catch (err) {
+    console.error("Error validating token:", err);
+}
+
+  
+      if (existingUser) {
+        const token = jwt.sign({ userId: existingUser._id }, JWT_SECRET, { expiresIn: '30d' });
+        res.cookie('token', token, { httpOnly: true, secure: false, sameSite: 'Strict' });
+  
+        return res.status(201).json({ message: 'User registered successfully' });
+
+        
+      } else {
+        const  username = response.data.name;
+        const email = response.data.email;
+        
+         const newUser = new user({ username : username, email : email });
+         await newUser.save();
+ 
+         const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, { expiresIn: '30d' });
+ 
+         res.cookie('token', token, { httpOnly: true, secure: false, sameSite: 'Strict' });
+ 
+         res.status(201).json({ message: 'User registered successfully' });
+      }
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+      res.status(500).json({ error: 'Failed to fetch user info' });
+    }
+  });
+
+  app.get('/fetchfollowerslist', async (req, res) => {
     const { userId } = req.params;
     try {
         const response = await followerdatabase.find({ userId: userId });
@@ -937,6 +1090,85 @@ app.get('/fetchfollowerslist/:userId', async (req, res) => {
         console.error('Error in fetchfollowerslist:', error);
     }
 });
+
+app.get('/fetchclickedfollowersinfo/:followerId', async (req, res) => {
+   const {followerId} = req.params;
+
+   const response = await user.findById(followerId);
+   const clickedpersonusername = response.username;
+
+   const response1 = await ProfilePicture.findOne({ userId : followerId});
+   const imageUrl = response1?.imageUrl || null;
+
+   res.status(200).json({
+    clickedpersonusername,
+    imageUrl,
+   })
+
+});
+
+
+app.post('/fetchcurrentuserID', async (req, res) => {
+    const token = req.cookies.token;
+    const userId = get_user_id_from_token(token);
+    res.status(200).json({userId})
+
+ });
+
+ app.post('/PostMessageToDatabase/:reciverNAME/:message/:followerId/:roomID', async (req, res) => {
+    const token = req.cookies.token;
+    const senderID = get_user_id_from_token(token);
+    const {followerId} = req.params;
+    const {message} = req.params;
+    const {roomID} = req.params;
+
+   
+
+    try {
+        const response = await user.findById(senderID);
+        const senderusername = response.username;
+
+        const response2 = await ProfilePicture.findOne({userId:senderID})
+        const senderPFP = response2.imageUrl;
+
+        const response1 = await user.findById(followerId);
+        const reciverusername = response1.username;
+
+        const response3 = await ProfilePicture.findOne({userId:followerId})
+        const reciverPFP = response3.imageUrl;
+
+        const timestamp = new Date(); 
+
+        const putmessegeindb = new Message({
+            roomID:roomID,
+            sendername : senderusername,
+            sendernameID: senderID,
+            senderPFP:senderPFP,
+            receivername:reciverusername,
+            receivernameID:followerId,
+            reciverPFP:reciverPFP,
+            message:message,
+            timestamp:timestamp,
+        })
+        await putmessegeindb.save();
+
+    } catch (error) {
+        console.log("error in PostMessageToDatabase",error)
+    }
+ });
+
+ app.get('/fetchMessages/:roomID', async (req, res) => {
+    const { roomID } = req.params;  
+    try {
+      const response = await Message.find({ roomID:roomID }).sort({ timestamp: 1 }); 
+      res.status(200).json(response);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      res.status(500).json({ error: "Error fetching messages" });
+    }
+  });
+  
+
 
 app.use('/', router);
 app.listen(process.env.PORT, () => {

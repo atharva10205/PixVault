@@ -140,7 +140,7 @@ const Image = () => {
     const fetchSimilarImages = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000getsimillarimages/${objectId}`
+          `http://localhost:5000/getsimillarimages/${objectId}`
         );
         setSimilarImages(response.data);
       } catch (error) {
@@ -164,7 +164,7 @@ const Image = () => {
   useEffect(() => {
     const fetchcurentusersprofilepicture = async () => {
       const response = await axios.get(
-        "http://localhost:5000fetchcurentusersprofilepicture",
+        "http://localhost:5000/fetchcurentusersprofilepicture",
         { withCredentials: true }
       );
       setcurrentusersprofilepicture(response.data.imageUrl);

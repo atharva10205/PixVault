@@ -1,108 +1,122 @@
-import './App.css'
-import Navbar from './components/Navbar'
-import Profile from './components/Profile'
-import Created from './components/Created'
-import Save from './components/Save'
-import Create from './components/Create'
-import Home from './components/Home'
-import Explore from './components/Explore'
-import{ createBrowserRouter, RouterProvider}from'react-router-dom'
-import Signup from './auth/Signup'
-import Login from './auth/Login'
-import Image from './components/Image'
-import Searchedimages from './components/Searchedimages'
-import Anime from './components/Anime'
-import Cat from './components/Cat'
-import Car from './components/Car'
-import Food from './components/Food'
-import Nature from './components/Nature'
-import Tech from './components/Tech'
-import Userprofile from './components/Userprofile'
-
+import "./App.css";
+import Navbar from "./components/Navbar";
+import Profile from "./components/Profile";
+import Created from "./components/Created";
+import Save from "./components/Save";
+import Create from "./components/Create";
+import Home from "./components/Home";
+import Explore from "./components/Explore";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Signup from "./auth/Signup";
+import Login from "./auth/Login";
+import Image from "./components/Image";
+import Searchedimages from "./components/Searchedimages";
+import Anime from "./components/Anime";
+import Cat from "./components/Cat";
+import Car from "./components/Car";
+import Food from "./components/Food";
+import Nature from "./components/Nature";
+import Tech from "./components/Tech";
+import Userprofile from "./components/Userprofile";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import Chatlist from "./components/Chatlist";
+import Chate from "./components/Chate";
+import Dog from "./components/Dog";
 
 function App() {
-
-
   const router = createBrowserRouter([
-    
     {
-      path:"/Profile",
-      element:<Profile />
+      path: "/Profile",
+      element: <Profile />,
     },
     {
-      path:"/",
-      element:<Navbar/>,
+      path: "/",
+      element: <Navbar />,
     },
     {
-      path:"/Created",
-      element:<Created />
+      path: "/Created",
+      element: <Created />,
     },
     {
-      path:"/save",
-      element:<Save/>
-
+      path: "/save",
+      element: <Save />,
     },
     {
-      path: '/Create',
-      element: <Create  />,
+      path: "/Create",
+      element: <Create />,
     },
     {
-      path: '/Home',
-      element: <Home />, 
+      path: "/Home",
+      element: <Home />,
     },
     {
-      path:"/Explore",
-      element:<Explore/>
-
-    }, {
-      path:"/Signup",
-      element:<Signup/>
-
-    }, {
-      path:"/Login",
-      element:<Login/>
-
+      path: "/Explore",
+      element: <Explore />,
+    },
+    {
+      path: "/Signup",
+      element: <Signup />,
+    },
+    {
+      path: "/Login",
+      element: <Login />,
     },
     {
       path: "/image/:objectId",
-      element: <Image />
-    }, {
+      element: <Image />,
+    },
+    {
       path: "/search/:input",
-      element: <Searchedimages />
-    },{
+      element: <Searchedimages />,
+    },
+    {
       path: "/Anime",
-      element: <Anime />
-    },{
+      element: <Anime />,
+    },
+    {
       path: "/Car",
-      element: <Car /> 
+      element: <Car />,
     },
     {
       path: "/Food",
-      element: <Food/> 
+      element: <Food />,
     },
     {
       path: "/Cat",
-      element: <Cat /> 
+      element: <Cat />,
     },
     {
       path: "/Nature",
-      element: <Nature /> 
+      element: <Nature />,
     },
     {
       path: "/Tech",
-      element: <Tech /> 
-    },{
-      path: '/:username/:e',
+      element: <Tech />,
+    },
+    {
+      path: "/:username/:e",
       element: <Userprofile />,
     },
+    {
+      path: "/chatlist",
+      element: <Chatlist />,
+    },
+    {
+      path: "/chate/:followerId",
+      element: <Chate />,
+    },
+    {
+      path: "/dog",
+      element: <Dog />,
+    },
     
-  ])
+  ]);
 
   return (
-    <>
-     <RouterProvider router={router}/>
-    </>
-  )
+    <GoogleOAuthProvider clientId="132470259782-f8a4lj20clpmoj086gb17abk13mv8r8d.apps.googleusercontent.com">
+      <RouterProvider router={router} />
+    </GoogleOAuthProvider>
+  );
 }
 
-export default App
+export default App;

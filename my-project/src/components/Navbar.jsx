@@ -62,7 +62,7 @@ const Navbar = () => {
   }, [])
 
   return (
-    <div className="flex px-3 py-5 align-middle sticky top-0 bg-white z-50">
+    <div className="flex px-3 py-5 align-middle sticky top-0 bg-white z-30">
       <div className="flex justify-center items-center">
         <img
           className="h-8 cursor-pointer flex justify-center"
