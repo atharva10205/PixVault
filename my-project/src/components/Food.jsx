@@ -82,7 +82,7 @@ const Food = () => {
             </div>
           ))
         ) : (
-          <p>No images found</p>
+          <p>No images  found</p>
         )}
       </div>
     </div>
