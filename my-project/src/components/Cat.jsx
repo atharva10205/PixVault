@@ -39,7 +39,7 @@ const Cat = () => {
   };
 
   return (
-    <div>
+    <div className="bg-black min-h-screen">
       <Navbar />
 
       <div className="flex items-center justify-center">
@@ -47,7 +47,7 @@ const Cat = () => {
             <img src="https://wallpapercave.com/wp/wp7809165.png"
               className="w-[450px] h-[450px] object-cover rounded-[50px]" />
             <div className="absolute inset-0 bg-black opacity-50 rounded-[50px] pointer-events-none"></div>
-            <div className="absolute bottom-[20px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-semibold text-[30px]">
+            <div className="absolute bottom-[20px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-yellow-400 font-semibold text-[30px]">
               Cat
             </div>
           </div>
@@ -67,14 +67,14 @@ const Cat = () => {
                       onClick={() => handleImageClick(pin._id)}
                     />
                     <button
-                      className="absolute top-4 right-1 bg-red-600 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 hover:text-black font-sans cursor-pointer"
+                      className="absolute top-4 right-1 bg-yellow-400 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 hover:text-black font-sans cursor-pointer"
                       onClick={handlesaveclick}
                     >
                       Save
                     </button>
                   </>
                 )}
-                <h1 className="text-base font-semibold mt-2">
+                <h1 className="text-base text-white font-semibold mt-2">
                   {pin.title || ""}
                 </h1>{" "}
                 <p>{pin.description || ""}</p>{" "}

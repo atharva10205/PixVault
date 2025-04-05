@@ -16,8 +16,7 @@ const Image = () => {
   const [FetchedComment, setFetchedComment] = useState([]);
   const [fetchCommentusername, setfetchCommentusername] = useState();
   const [imageHeight, setImageHeight] = useState(0);
-  const [currentusersprofilepicture, setcurrentusersprofilepicture] =
-    useState();
+  const [currentusersprofilepicture, setcurrentusersprofilepicture] = useState();
   const [userid, setuserid] = useState();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
@@ -25,14 +24,20 @@ const Image = () => {
   const imageRef = useRef(null);
 
   useEffect(() => {
-    const verifytoken = async()=>{
-
-      const response = await axios.post("http://localhost:5000/verify",{},{withCredentials:true});
-      if(response.status === 200){setIsAuthenticated(true)}else{setIsAuthenticated(false)};
-    }
+    const verifytoken = async () => {
+      const response = await axios.post(
+        "http://localhost:5000/verify",
+        {},
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    };
     verifytoken();
-  }, [])
-
+  }, []);
 
   useEffect(() => {
     const verifytoken = async () => {
@@ -125,7 +130,7 @@ const Image = () => {
     const fetchdescription = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000fetchdescription/${objectId}`,
+          `http://localhost:5000/fetchdescription/${objectId}`,
           { withCredentials: true }
         );
         setdescription(response.data.description);
@@ -163,23 +168,43 @@ const Image = () => {
 
   useEffect(() => {
     const fetchcurentusersprofilepicture = async () => {
-      const response = await axios.get(
-        "http://localhost:5000/fetchcurentusersprofilepicture",
-        { withCredentials: true }
-      );
-      setcurrentusersprofilepicture(response.data.imageUrl);
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/fetchcurentusersprofilepicture",
+          { withCredentials: true }
+        );
+  
+        const imageUrl =
+          response.data.imageUrl ||
+          "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg";
+  
+        setcurrentusersprofilepicture(imageUrl);
+      } catch (error) {
+        console.error("Error fetching user's profile picture:", error);
+        setcurrentusersprofilepicture(
+          "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
+        );
+      }
     };
+  
     fetchcurentusersprofilepicture();
   }, []);
+  
+  
 
   const handleImageClick = async (imageId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/${imageId}`,
+        `http://localhost:5000/getobjectid/${imageId}`,
         { withCredentials: true }
       );
       const objectId = response.data.objectId;
       navigate(`/image/${objectId}`);
+
+      // Force a reload after navigation
+      setTimeout(() => {
+        window.location.reload();
+      }, 100); // Slight delay ensures the navigation happens first
     } catch (error) {
       console.error("Error handling image click:", error);
     }
@@ -237,9 +262,9 @@ const Image = () => {
     fetchcomments();
   }, [objectId]);
 
-  const handleusernameclick =async(e)=>{
+  const handleusernameclick = async (e) => {
     navigate(`/${username}/${e}`);
-  }
+  };
 
   const commentchange = (e) => {
     setcommentinput(e.target.value);
@@ -251,97 +276,8 @@ const Image = () => {
     }
   };
 
-  if(!isAuthenticated){
-    return (
-      <div>
-        <Navbar />
-        <div className="flex justify-center items-start p-4">
-          <div className="flex flex-row rounded-[30px] overflow-hidden w-full max-w-screen-lg">
-            <img
-              src={imageUrl}
-              alt="Uploaded"
-              className="w-[500px] h-auto object-cover"
-              ref={imageRef}
-              onLoad={handleImageLoad}
-            />
-            <div className="bg-gray-200 w-[500px] flex flex-col justify-between">
-              <div className="p-4 flex-grow">
-                <div className="flex items-center space-x-3 p-4">
-                  <img
-                    src={profilepicture}
-                    alt="Profile"
-                    className="w-12 h-12 rounded-full"
-                  />
-                  <span className="text-lg  font-semibold cursor-pointer" onClick={handleusernameclick}>{username}</span>
-                </div>
-                <div className="flex flex-col ml-5 font-sans font-semibold">
-                  <span>{title}</span>
-                  <span>{description}</span>
-                </div>
-                <div
-                  className="overflow-y-auto bg-white p-4 mt-4 rounded-lg shadow-md"
-                  style={{ height: `${imageHeight}px` }}
-                >
-                  <h2 className="text-lg font-semibold mb-2 ">Comments</h2>
-                  <div className="space-y-4">
-                    {FetchedComment.length > 0 ? (
-                      FetchedComment.map((comment, index) => (
-                        <div key={index} className="p-2 border-b flex space-x-4">
-                          <img
-                            src={comment.currentusersprofilepicture}
-                            className="h-9 w-9 rounded-[100px]"
-                            alt={`${comment.fetchCommentusername}'s profile`}
-                          />
-                          <div>
-                            <strong>{comment.fetchCommentusername}:</strong>{" "}
-                            {comment.input}
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-gray-500">No comments yet.</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="p-4">
-               <div className="font-bold ml-2"> Signup to comment</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="text-center font-sans font-semibold p-3 text-xl">
-          More to explore
-        </div>
-        <div className="columns-1 md:columns-2 lg:columns-5 gap-4 p-5">
-          {similarImages.map((image, index) => (
-            <div key={index} className="mb-4 break-inside-avoid">
-              <div className="block relative group">
-                {image.imageUrl && (
-                  <>
-                    <img
-                      className="rounded-xl w-full object-cover cursor-pointer group-hover:brightness-75 transition duration-200"
-                      src={image.imageUrl}
-                      alt={image.title}
-                      onClick={() => handleImageClick(image._id)}
-                    />
-                    <button className="absolute top-4 right-1 bg-red-600 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 hover:text-black">
-                      Save
-                    </button>
-                  </>
-                )}
-                <h1 className="text-base font-semibold mt-2">{image.title}</h1>
-                <p>{image.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div>
+    <div className="bg-black">
       <Navbar />
       <div className="flex justify-center items-start p-4">
         <div className="flex flex-row rounded-[30px] overflow-hidden w-full max-w-screen-lg">
@@ -352,15 +288,27 @@ const Image = () => {
             ref={imageRef}
             onLoad={handleImageLoad}
           />
-          <div className="bg-gray-200 w-[500px] flex flex-col justify-between">
+          <div
+            className={`w-[500px] flex flex-col justify-between ${
+              isAuthenticated ? "bg-gray-300" : "bg-gray-200"
+            }`}
+          >
             <div className="p-4 flex-grow">
               <div className="flex items-center space-x-3 p-4">
                 <img
-                  src={profilepicture}
+                  src={
+                    profilepicture ||
+                    "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
+                  }
                   alt="Profile"
                   className="w-12 h-12 rounded-full"
                 />
-                <span className="text-lg font-semibold cursor-pointer" onClick={() => handleusernameclick(objectId)}>{username}</span>
+                <span
+                  className="text-lg font-semibold cursor-pointer"
+                  onClick={() => handleusernameclick(objectId)}
+                >
+                  {username}
+                </span>
               </div>
               <div className="flex flex-col ml-5 font-sans font-semibold">
                 <span>{title}</span>
@@ -370,14 +318,14 @@ const Image = () => {
                 className="overflow-y-auto bg-white p-4 mt-4 rounded-lg shadow-md"
                 style={{ height: `${imageHeight}px` }}
               >
-                <h2 className="text-lg font-semibold mb-2 ">Comments</h2>
+                <h2 className="text-lg font-semibold mb-2">Comments</h2>
                 <div className="space-y-4">
                   {FetchedComment.length > 0 ? (
                     FetchedComment.map((comment, index) => (
                       <div key={index} className="p-2 border-b flex space-x-4">
                         <img
                           src={comment.currentusersprofilepicture}
-                          className="h-9 w-9 rounded-[100px]"
+                          className="h-9 w-9 rounded-full"
                           alt={`${comment.fetchCommentusername}'s profile`}
                         />
                         <div>
@@ -393,26 +341,34 @@ const Image = () => {
               </div>
             </div>
             <div className="p-4">
-              <div className="flex items-center space-x-3">
-                <input
-                  type="text"
-                  className="flex-grow p-2 border rounded-[27px] border-slate-300"
-                  placeholder="Write a comment..."
-                  onChange={commentchange}
-                  value={commentinput}
-                />
-                <button
-                  className="p-2 bg-red-600 text-white rounded-[27px] font-sans text-[14px] hover:text-black"
-                  onClick={handlecommentpost}
-                >
-                  Post
-                </button>
-              </div>
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="text"
+                    className="flex-grow p-2 border rounded-[27px] border-slate-300"
+                    placeholder="Write a comment..."
+                    onChange={commentchange}
+                    value={commentinput}
+                  />
+                  <button
+                    className="p-2 bg-yellow-400 text-black rounded-[27px] font-sans text-[14px] hover:text-black"
+                    onClick={handlecommentpost}
+                  >
+                    Post
+                  </button>
+                </div>
+              ) : (
+                <div className="font-bold ml-2">Signup to comment</div>
+              )}
             </div>
           </div>
         </div>
       </div>
-      <div className="text-center font-sans font-semibold p-3 text-xl">
+      <div
+        className={`text-center font-sans font-semibold p-3 text-xl ${
+          isAuthenticated ? "text-yellow-400" : ""
+        }`}
+      >
         More to explore
       </div>
       <div className="columns-1 md:columns-2 lg:columns-5 gap-4 p-5">
@@ -427,7 +383,13 @@ const Image = () => {
                     alt={image.title}
                     onClick={() => handleImageClick(image._id)}
                   />
-                  <button className="absolute top-4 right-1 bg-red-600 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 hover:text-black">
+                  <button
+                    className={`absolute top-4 right-1 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 ${
+                      isAuthenticated
+                        ? "bg-yellow-400 hover:text-black"
+                        : "bg-red-600"
+                    }`}
+                  >
                     Save
                   </button>
                 </>

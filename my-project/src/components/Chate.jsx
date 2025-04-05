@@ -66,14 +66,21 @@ const Chate = () => {
         const response = await axios.get("http://localhost:5000/profilephoto", {
           withCredentials: true,
         });
-        if (response.data.imageUrl) {
-          setProfilePictureUrl(response.data.imageUrl);
-          setUserId(response.data.userId);
-        }
+
+        const imageUrl =
+          response.data.imageUrl ||
+          "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg";
+
+        setProfilePictureUrl(imageUrl);
+        setUserId(response.data.userId);
       } catch (error) {
         console.error("Error fetching profile picture:", error);
+        setProfilePictureUrl(
+          "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
+        );
       }
     };
+
     fetchProfilePhoto();
   }, []);
 
@@ -82,20 +89,22 @@ const Chate = () => {
     const fetchFollowersList = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchfollowerslist11/${userId}`,
+          `http://localhost:5000/fetchfollowerslist111/${userId}`,
           { withCredentials: true }
         );
 
-        const followersData = response.data.followersId.map(
-          (followerId, index) => ({
-            followerId,
-            username: response.data.usernames[index] || "Unknown",
-            profilePictureUrl:
-              response.data.profilePictureUrls[index] ||
-              "https://cdn-icons-png.freepik.com/512/8861/8861091.png",
-          })
-        );
+        console.log("The follower list from backend is", response.data);
+
+        const followersData = response.data.map((follower) => ({
+          userId: follower.userId,
+          username: follower.followerusername,
+          profilePictureUrl:
+            follower.followersPFP ||
+            "https://cdn-icons-png.freepik.com/512/8861/8861091.png",
+        }));
+
         setFollowers(followersData);
+        console.log("The processed follower data is", followersData);
       } catch (error) {
         console.error("Error fetching followers list", error);
       }
@@ -183,10 +192,9 @@ const Chate = () => {
       const newMessage = {
         room: roomID,
         message: inputmessege,
-        sender: username1, // Set sender as the current user
+        sender: username1,
       };
 
-      // Emit the message to the server
       socket.emit("sendMessage", newMessage);
 
       // Save the message to the database
@@ -219,29 +227,58 @@ const Chate = () => {
     fetchmesseges();
   }, [roomID]);
 
-  useEffect(() => {
-    console.log("fetched messeges are", messeges1);
-  }, [messeges1]);
-
+ 
   const allMessages = [...messeges1, ...messeges];
 
+  // const handel_videocall_click = async () => {
+  //   navigate(`/Videocall/${followerId}/${currentuserID}`);
+  // };
+
+  // const [image, setImage] = useState(null);
+
+  // const handle_images_input = async (event,reciverNAME, inputmessege) => {
+  //   const file = event.target.files[0];
+  //   setImage(file);
+
+  //   const formData = new FormData();
+  //   formData.append("image", file);
+
+  //   const response = await axios.post("http://localhost:5000/chate_image", {
+  //     withCredentials: true,
+  //     formData,
+  //   });
+  // };
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden"; // Disable scrolling on the entire page
+    return () => {
+      document.body.style.overflow = ""; // Reset when component unmounts
+    };
+  }, []);
+
   return (
-    <div className="h-screen flex flex-col">
+    <div className="min-h-screen bg-black flex flex-col">
       <Navbar />
       <div className="flex flex-1">
-        <div className="w-[600px] h-full ml-3 border-r-2 border-gray-300">
+        <div className="p-4 border-r-2 border-gray-300 min-h-screen w-[500px] ">
           <div className="flex items-center mb-4">
             <img
               className="h-[50px] w-[50px] rounded-full"
-              src={profilePictureUrl || "https://via.placeholder.com/50"}
-              alt=""
+              src={
+                profilePictureUrl ||
+                "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
+              }
+              alt="Profile"
             />
-            <h2 className="text-lg font-semibold font-sans p-3 text-[33px]">
+
+            <h2 className="text-lg font-semibold font-sans text-white p-3 text-[33px]">
               {username1 || "Your Username"}
             </h2>
           </div>
 
-          <p className="text-lg font-semibold mb-2">Messages</p>
+          <p className="text-lg font-semibold text-yellow-400 mt-4 mb-2">
+            Messages
+          </p>
 
           <div
             className="flex flex-col space-y-3 overflow-y-auto"
@@ -250,8 +287,8 @@ const Chate = () => {
             {followers.map((follower, index) => (
               <div
                 key={index}
-                onClick={() => navigate(`/chate/${follower.followerId}`)}
-                className="h-[70px] w-[410px] flex items-center p-3 rounded-xl hover:bg-red-600 cursor-pointer"
+                onClick={() => navigate(`/chate/${follower.userId}`)}
+                className="h-[70px] w-[470px] flex items-center p-3 mt-3 rounded-xl text-white hover:bg-yellow-400 hover:text-black"
               >
                 <img
                   className="h-[50px] w-[50px] rounded-full mr-4"
@@ -261,48 +298,62 @@ const Chate = () => {
                   }
                   alt={follower.username}
                 />
+
                 <span>{follower.username}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex flex-col w-full p-4 ml-[1px]">
-          <div className="flex items-center p-1 bg-white border-b-2 border-gray-300">
-            <img
-              className="h-[50px] w-[50px] rounded-full mr-4"
-              src={
-                reciverPFP ||
-                "https://cdn-icons-png.freepik.com/512/8861/8861091.png"
-              }
-              alt="Profile"
-            />
-            <h2 className="text-xl font-semibold">{reciverNAME}</h2>
+        <div className="flex flex-col   w-full p-4 ml-[1px]">
+          <div className="flex items-center justify-between p-1 bg-balck border-b-2 border-gray-300">
+            <div className="flex items-center p-1 bg-balck ">
+              <img
+                className="h-[50px] w-[50px] rounded-full mr-4"
+                src={
+                  reciverPFP ||
+                  "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
+                }
+                alt="Profile"
+              />
+              <h2 className="text-xl text-white font-semibold ">
+                {reciverNAME}
+              </h2>
+            </div>
+            {/* 
+            <div className="flex flex-row ">
+              <div className="mr-5">
+                <img
+                  src="https://img.icons8.com/?size=100&id=11374&format=png&color=FFFFFF"
+                  className="h-[40px] cursor-pointer w-[40px]"
+                  alt=""
+                  onClick={handel_videocall_click}
+                />
+              </div>
+
+              <img
+                src="https://img.icons8.com/?size=100&id=9659&format=png&color=FFFFFF"
+                alt=""
+                className="h-[40px] cursor-pointer w-[40px]"
+              />
+            </div> */}
           </div>
 
           <div
             ref={chatContainerRef}
-            className="flex-grow bg-gray-100 p-4 rounded-lg overflow-y-auto mt-4"
+            className="flex-grow bg-black-100 p-4 rounded-lg overflow-y-auto mt-4"
             style={{ maxHeight: "calc(100vh - 300px)" }}
           >
             {allMessages.map((msg, index) => (
-              <div
-                key={index}
-                className={`mb-3 flex ${
-                  msg.sendername === username1 ? "justify-end" : "justify-start"
-                }`}
-              >
-                <div
-                  className={`flex items-center space-x-2 ${
-                    msg.sendername === username1 ? "flex-row-reverse" : ""
-                  }`}
-                >
+              <div key={index} className={`mb-3  flex  ${msg.sendername === username1 ? "justify-end" : "justify-start" }`}>
+                <div className={`flex items-center space-x-2  ${msg.sendername === username1 ? "flex-row-reverse" : "" }`}>
                   <img
-                    className="h-[30px] w-[30px] rounded-full"
+                    className="h-[30px] ml-3 w-[30px] rounded-full"
                     src={
-                      msg.sendername === username1
+                      (msg.sendername === username1
                         ? profilePictureUrl
-                        : reciverPFP
+                        : reciverPFP) ||
+                      "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
                     }
                     alt={msg.sendername === username1 ? username1 : reciverNAME}
                   />
@@ -338,10 +389,25 @@ const Chate = () => {
               }}
             />
 
+            {/* <input
+              type="file"
+              accept="image/*"
+              onChange={handle_images_input}
+              className="hidden"
+              id="imageInput"
+            />
+            <label htmlFor="imageInput">
+              <img
+                src="https://i.pinimg.com/474x/c4/09/7b/c4097be1d2a728b919e71102c5235cad.jpg"
+                className="h-[40px] w-[40px] mr-3 ml-2 rounded-full cursor-pointer"
+                alt="Upload"
+              />
+            </label> */}
+
             <img
-              src="https://cdn-icons-png.flaticon.com/512/3384/3384552.png"
+              src="https://i.pinimg.com/736x/79/e6/25/79e6255960cbfb9f6a367e2ed434de9b.jpg"
               onClick={() => handleMessageSubmit(reciverNAME, inputmessege)}
-              className="h-[50px] w-[50px] ml-2 rounded-[100px] cursor-pointer"
+              className="h-[40px] w-[34px]  ml-4 rounded-[100px] cursor-pointer scale-150"
               alt=""
             />
           </div>

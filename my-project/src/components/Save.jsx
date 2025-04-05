@@ -65,13 +65,13 @@ const Save = () => {
 
   if (!isAuthenticated) {
     return (
-      <div>
+      <div className='bg-black min-h-screen'>
       <Profile />
       <hr className="border-t border-gray-300 w-full" />
 
-      <div className="flex flex-col items-center justify-center mt-10 font-bold font-sans">
+      <div className="flex flex-col items-center bg-black text-white justify-center mt-10 font-bold font-sans">
        You need to signin before Saving
-       <button className="bg-red-600 p-3 rounded-[30px] mt-6" onClick={handlesigninbutton}>signup</button>
+       <button className="bg-yellow-400 text-black p-3 rounded-[30px] mt-6" onClick={handlesigninbutton}>signup</button>
       </div>
     </div>
     );
@@ -79,7 +79,7 @@ const Save = () => {
   
 
   return (
-    <div>
+    <div className='bg-black'>
       <Profile />
       <div className="columns-1 md:columns-2 lg:columns-5 gap-4 p-5">
         {savedimages.map((pin, index) => (
@@ -94,7 +94,7 @@ const Save = () => {
                     onClick={() => handleImageClick(pin._id)}
                   />
                   <button
-                    className="absolute top-4 right-1 bg-red-600 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 hover:text-black font-sans cursor-pointer"
+                    className="absolute top-4 right-1 bg-yellow-400 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 hover:text-black font-sans cursor-pointer"
                     onClick={() => handleremoveclick(pin._id)}>
                     Remove
                   </button>

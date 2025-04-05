@@ -6,7 +6,7 @@ import Save from "./components/Save";
 import Create from "./components/Create";
 import Home from "./components/Home";
 import Explore from "./components/Explore";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import Signup from "./auth/Signup";
 import Login from "./auth/Login";
 import Image from "./components/Image";
@@ -21,17 +21,19 @@ import Userprofile from "./components/Userprofile";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Chatlist from "./components/Chatlist";
 import Chate from "./components/Chate";
-import Dog from "./components/Dog";
+import Accounts from "./components/Accounts";
+import Userprofile1 from "./components/Userprofile1";
+import Videocall from "./components/Videocall";
 
 function App() {
   const router = createBrowserRouter([
     {
-      path: "/Profile",
-      element: <Profile />,
+      path: "/",
+      element: <Navigate to="/Home" replace />,
     },
     {
-      path: "/",
-      element: <Navbar />,
+      path: "/Profile",
+      element: <Profile />,
     },
     {
       path: "/Created",
@@ -98,6 +100,10 @@ function App() {
       element: <Userprofile />,
     },
     {
+      path: "/UserProfile_/:username/:userId",
+      element: <Userprofile1 />,
+    },
+    {
       path: "/chatlist",
       element: <Chatlist />,
     },
@@ -106,10 +112,13 @@ function App() {
       element: <Chate />,
     },
     {
-      path: "/dog",
-      element: <Dog />,
+      path: "/Account/:input",
+      element: <Accounts />,
     },
-    
+     {
+      path: "/Videocall/:followerId/:currentuserID",
+      element: <Videocall />,
+    },
   ]);
 
   return (

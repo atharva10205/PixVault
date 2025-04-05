@@ -3,23 +3,28 @@ import Navbar from "./Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
-const Create = ({onCreatePin  }) => {
+const Create = ({ onCreatePin }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(null); 
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const verifytoken = async()=>{
-
-      const response = await axios.post("http://localhost:5000/verify",{},{withCredentials:true});
-      if(response.status === 200){setIsAuthenticated(true)}else{setIsAuthenticated(false)};
-    }
+    const verifytoken = async () => {
+      const response = await axios.post(
+        "http://localhost:5000/verify",
+        {},
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    };
     verifytoken();
-  }, [])
-
+  }, []);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -47,7 +52,11 @@ const Create = ({onCreatePin  }) => {
     formdata.append("image", image); // Now sending the actual file
 
     try {
-      const response = await axios.post("http://localhost:5000/upload", formdata, {withCredentials: true,});
+      const response = await axios.post(
+        "http://localhost:5000/upload",
+        formdata,
+        { withCredentials: true }
+      );
       console.log(response);
       setTitle("");
       setDescription("");
@@ -59,50 +68,53 @@ const Create = ({onCreatePin  }) => {
 
   if (!isAuthenticated) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen relative">
-  {/* Close Button */}
-  <button
-    onClick={() => navigate("/Home")} 
-    className="absolute top-4 right-4 text-black text-[30px] p-2 rounded-full text-sm font-bold"
-  >
-    X
-  </button>
+      <div>
+        <Navbar />
+        <div className="flex flex-col items-center bg-black justify-center h-screen relative">
+          <button
+            onClick={() => navigate("/Home")}
+            className="absolute top-4 right-4 text-black text-[30px] p-2 rounded-full text-sm font-bold"
+          >
+            X
+          </button>
 
-  <h1 className="text-xl text-slate-400 font-bold">
-    You need to sign in to upload posts
-  </h1>
-  
-  <button
-    onClick={() => navigate("/signup")}
-    className="mt-4 bg-red-500 p-4 rounded-[20px] text-white font-bold"
-  >
-    Sign In
-  </button>
-</div>
+          <h1 className="text-xl text-slate-400 font-bold">
+            You need to sign in to upload posts
+          </h1>
 
+          <button
+            onClick={() => navigate("/signup")}
+            className="mt-4 bg-yellow-400 p-4 rounded-[20px] text-black font-bold"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
     );
   }
 
   return (
-    <div>
+    <div className="bg-black min-h-screen">
       <Navbar />
       <div>
-        <h1 className="mx-24 font-bold text-xl my-10">Create Post</h1>
+        <h1 className="mx-24 font-bold text-white text-xl bg-black my-10">
+          Create Post
+        </h1>
       </div>
 
       <div className="flex">
         <div
           onClick={handelinputarea}
-          className="mx-32 my-16 h-90 w-80 bg-gray-200 rounded-[30px] cursor-pointer flex items-center justify-center"
+          className="mx-32 my-16 h-90 w-80 bg-zinc-800 rounded-[30px] cursor-pointer flex items-center justify-center"
         >
           {image ? (
             <img
-              src={URL.createObjectURL(image)} 
+              src={URL.createObjectURL(image)}
               alt="Preview"
               className="h-full w-full object-cover rounded-[30px]"
             />
           ) : (
-            <span className="text-gray-500">Upload</span>
+            <span className="text-yellow-400 border-amber-400">Upload</span>
           )}
           <input
             type="file"
@@ -114,24 +126,24 @@ const Create = ({onCreatePin  }) => {
         </div>
 
         <div className="mt-16">
-          <h1>Title</h1>
+          <h1 className="text-yellow-400 ">Title</h1>
           <div>
             <input
               value={title}
               onChange={handleTitleChange}
-              className="bg-gray-200 w-96 h-10 p-2 rounded-[10px]"
+              className="bg-zinc-800 w-96 h-10 p-2 text-white placeholder-gray-400  rounded-[10px]"
               type="text"
               placeholder="Add a Title"
             />
           </div>
 
           <div className="mt-10">
-            <h1>Description</h1>
+            <h1 className="text-yellow-400"> Description</h1>
             <div>
               <input
                 value={description}
                 onChange={handleDescriptionChange}
-                className="bg-gray-200 w-96 h-10 p-2 rounded-[10px]"
+                className="bg-zinc-800 w-96 h-10 text-white p-2 placeholder-gray-400  rounded-[10px]"
                 type="text"
                 placeholder="Add the Description"
               />
@@ -140,7 +152,7 @@ const Create = ({onCreatePin  }) => {
 
           <button
             onClick={handleSubmit}
-            className="mt-16 bg-red-500 p-4 rounded-[25px] text-white font-bold"
+            className="mt-16 bg-yellow-400 text-black p-4 rounded-[25px]  font-bold"
           >
             Publish
           </button>

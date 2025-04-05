@@ -1,46 +1,66 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [ProfilePictureUrl, setProfilePictureUrl] = useState(null);
-  const [input, setinput] = useState()
-  const [searchedimages, setsearchedimages] = useState()
+  const [input, setinput] = useState();
+  const [searchedimages, setsearchedimages] = useState();
+  const audio = new Audio("public/Audio/mmaaAAAaah (1).mp3");
 
-  const handleInput = (event)=>{
-    setinput(event.target.value);
+  let clickCount = 0;
+  let timer;
+
+  function handleClick() {
+    clearTimeout(timer);
+    clickCount++;
+
+    if (clickCount === 7) {
+      audio.play();
+      clickCount = 0;
+      return;
+    }
+
+    timer = setTimeout(() => {
+      clickCount = 0;
+    }, 1000);
   }
 
+  const handleInput = (event) => {
+    setinput(event.target.value);
+  };
+
   const submitinput = async (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       navigate(`/search/${input}`);
-  
-      const response = await axios.get(`http://localhost:5000/search/${input}`, { withCredentials: true });
+
+      const response = await axios.get(
+        `http://localhost:5000/search/${input}`,
+        { withCredentials: true }
+      );
       setsearchedimages(response.data);
     }
   };
-  
 
   const isActive = (paths) => paths.includes(location.pathname);
 
   const handleProfileClick = () => {
-    navigate('/Profile');
+    navigate("/Profile");
   };
 
   const handleHomeClick = () => {
-    navigate('/Home');
+    navigate("/Home");
   };
 
   const handleExploreClick = () => {
-    navigate('/Explore');
+    navigate("/Explore");
   };
 
   const handleCreateClick = () => {
-    navigate('/Create');
+    navigate("/Create");
   };
 
   useEffect(() => {
@@ -59,52 +79,91 @@ const Navbar = () => {
       }
     };
     fetchprofilephoto();
-  }, [])
+  }, []);
 
   return (
-    <div className="flex px-3 py-5 align-middle sticky top-0 bg-white z-30">
-      <div className="flex justify-center items-center">
-        <img
-          className="h-8 cursor-pointer flex justify-center"
-          src="https://e7.pngegg.com/pngimages/969/351/png-clipart-pinterest-logo-area-text-symbol-brand-app-pinterest-text-trademark.png"
-          alt="Logo"
-        />
+    <div className="flex items-center flex-nowrap overflow-x-auto gap-x-3 px-3 py-4 sticky top-0 bg-black z-30 w-full">
+      
+      {/* Logo */}
+      <img
+        onClick={handleClick}
+        className="h-[50px] w-[50px] rounded-full object-cover cursor-pointer shrink-0"
+        src="https://i.pinimg.com/736x/76/b4/1a/76b41a0dfb235b42fd440032aafae231.jpg"
+        alt="Logo"
+      />
+  
+      {/* Buttons */}
+      <div className="flex gap-2 shrink-0">
+        <button
+          onClick={handleHomeClick}
+          className={`px-4 py-2 text-sm font-sans rounded-full ${
+            isActive(["/Home"])
+              ? "bg-yellow-400 text-black"
+              : "bg-black text-white border border-white"
+          }`}
+        >
+          Home
+        </button>
+        <button
+          onClick={handleExploreClick}
+          className={`px-4 py-2 text-sm font-sans rounded-full ${
+            isActive([
+              "/Explore",
+              "/Anime",
+              "/Car",
+              "/Food",
+              "/Cat",
+              "/Tech",
+              "/Nature",
+            ])
+              ? "bg-yellow-400 text-black"
+              : "bg-black text-white border border-white"
+          }`}
+        >
+          Explore
+        </button>
+        <button
+          onClick={handleCreateClick}
+          className={`px-4 py-2 text-sm font-sans rounded-full ${
+            isActive("/Create")
+              ? "bg-yellow-400 text-black"
+              : "bg-black text-white border border-white"
+          }`}
+        >
+          Create
+        </button>
       </div>
-
-      <div className="flex gap-1">
-        <div>
-          <button onClick={handleHomeClick} className={`p-[13px] text-[15px] font-sans rounded-[30px] ${isActive(['/Home']) ? 'bg-black text-white' : 'bg-white text-black'}`}>
-            Home
-          </button>
-        </div>
-        <div>
-          <button onClick={handleExploreClick} className={`p-[13px] text-[15px] font-sans rounded-[30px] ${isActive(['/Explore' , '/Anime' , '/Car' , '/Food' , '/Cat' , '/Tech' , '/Nature']) ? 'bg-black text-white' : 'bg-white text-black'}`}>
-            Explore
-          </button>
-        </div>
-        <div>
-          <button onClick={handleCreateClick} className={`p-[13px] text-[15px] font-sans rounded-[30px] ${isActive('/Create') ? 'bg-black text-white' : 'bg-white text-black'}`}>
-            Create
-          </button>
-        </div>
-
-        <input type="text" placeholder="search" className="bg-gray-200 w-[1100px] mr-3 rounded-[50px] placeholder-black p-3 text-black"
+  
+      {/* Search Input */}
+      <input
+        type="text"
+        placeholder="Search"
+        className="bg-black border border-yellow-400 text-white rounded-full px-4 py-2 placeholder-gray-400 w-[40vw] min-w-[200px] max-w-[500px]"
         onKeyDown={submitinput}
-        onChange={handleInput}/>
-
-        <div className='flex justify-center items-center gap-5 cursor-pointer'>
-          {/* <img className='h-8' src="https://cdn-icons-png.flaticon.com/128/2529/2529521.png" alt="Notifications" />
-          <img className='h-7' src="https://cdn-icons-png.flaticon.com/128/1370/1370907.png" alt="Messages" /> */}
-
-          {ProfilePictureUrl  ? (
-            <img onClick={handleProfileClick} className='h-10 w-10 rounded-full object-cover' src={ProfilePictureUrl} alt="Profile" />
-          ) : (
-            <img onClick={handleProfileClick} className='h-8' src="https://cdn-icons-png.freepik.com/512/8861/8861091.png" alt="Default Profile" />
-          )}
-        </div>
+        onChange={handleInput}
+      />
+  
+      {/* Profile Icon */}
+      <div className="flex items-center justify-center shrink-0">
+        {ProfilePictureUrl ? (
+          <img
+            onClick={handleProfileClick}
+            className="h-10 w-10 rounded-full object-cover cursor-pointer"
+            src={ProfilePictureUrl}
+            alt="Profile"
+          />
+        ) : (
+          <img
+            onClick={handleProfileClick}
+            className="h-10 w-10 rounded-full cursor-pointer"
+            src="https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
+            alt="Default Profile"
+          />
+        )}
       </div>
     </div>
   );
+  
 };
 
 export default Navbar;

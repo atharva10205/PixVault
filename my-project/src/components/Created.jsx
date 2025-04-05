@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Profile from "./Profile";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Created = () => {
@@ -9,34 +9,38 @@ const Created = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const navigate = useNavigate();
 
-
-
   useEffect(() => {
-    const verifytoken = async()=>{
-
-      const response = await axios.post("http://localhost:5000/verify",{},{withCredentials:true});
-      if(response.status === 200){setIsAuthenticated(true)}else{setIsAuthenticated(false)};
-    }
+    const verifytoken = async () => {
+      const response = await axios.post(
+        "http://localhost:5000/verify",
+        {},
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    };
     verifytoken();
-  }, [])
+  }, []);
 
-
-  const handleDeleteimage = async(imageId)=>{
-    
+  const handleDeleteimage = async (imageId) => {
     setCreatedImages((prevImages) =>
-    prevImages.filter((image) => image._id !== imageId)
-  );
+      prevImages.filter((image) => image._id !== imageId)
+    );
 
-    try{
-      const response = await axios.delete(`http://localhost:5000/delete/${imageId}`,{withCredentials: true,});
-      
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/delete/${imageId}`,
+        { withCredentials: true }
+      );
+
       console.log(response.data.message);
-
-    }catch(error){
-      console.log("error in frontend const handleDeleteimage",error)
+    } catch (error) {
+      console.log("error in frontend const handleDeleteimage", error);
     }
-  }
-
+  };
 
   const fetchCreatedImages = async () => {
     try {
@@ -49,11 +53,9 @@ const Created = () => {
     }
   };
 
-  const handlesigninbutton = ()=>{
+  const handlesigninbutton = () => {
     navigate("/signup");
-  }
-
-  
+  };
 
   useEffect(() => {
     fetchCreatedImages();
@@ -61,22 +63,27 @@ const Created = () => {
 
   if (!isAuthenticated) {
     return (
-      <div>
-      <Profile />
-      <hr className="border-t border-gray-300 w-full" />
+      <div className="bg-black">
+        <Profile />
+        <hr className="border-t bg-black border-gray-300 w-full" />
 
-      <div className="flex flex-col items-center justify-center mt-10 font-bold font-sans">
-       You need to signin before creating
-       <button className="bg-red-600 p-3 rounded-[30px] mt-6" onClick={handlesigninbutton}>signup</button>
+        <div className="flex flex-col text-white items-center justify-center mt-10 font-bold font-sans">
+          You need to signin before creating
+          <button
+            className="bg-yellow-400 text-black p-3 rounded-[30px] mt-6"
+            onClick={handlesigninbutton}
+          >
+            signup
+          </button>
+        </div>
       </div>
-    </div>
     );
   }
 
   return (
-    <div>
+    <div className="bg-black">
       <Profile />
-      <div className="columns-1 md:columns-2 lg:columns-5 gap-4 p-5">
+      <div className="columns-1 bg-black md:columns-2 lg:columns-5 gap-4 p-5">
         {createdImages.map((image, index) => (
           <div key={index} className="mb-4 break-inside-avoid">
             <div className="block">
@@ -88,7 +95,7 @@ const Created = () => {
                 />
                 <button
                   onClick={() => handleDeleteimage(image._id)}
-                  className="absolute top-4 right-1 bg-red-600 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 hover:text-black font-sans cursor-pointer"
+                  className="absolute top-4 right-1 bg-yellow-400 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 hover:text-black font-sans cursor-pointer"
                 >
                   Delete
                 </button>

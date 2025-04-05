@@ -17,6 +17,8 @@ const Userprofile = () => {
   const [followersmodal, setfollowersmodal] = useState(false);
   const [followingpfpurl, setFollowingPfpUrl] = useState([]);
   const [followingusername, setFollowingUsername] = useState([]);
+  const [userID, setuserID] = useState();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +35,8 @@ const Userprofile = () => {
           imageUrl || "https://cdn-icons-png.freepik.com/512/8861/8861091.png"
         );
         setImages(images);
-        setpfpuserid(userid); // Sets pfpuserid
+        setpfpuserid(userid);
+        setuserID(userid);
       } catch (error) {
         console.error("Failed to fetch profile picture:", error);
         setProfilePicture(
@@ -103,24 +106,6 @@ const Userprofile = () => {
     }
   };
 
-  const handlefollowbutton = async () => {
-    try {
-      const response = await axios.post(
-        `http://localhost:5000/handlefollowebutton/${pfpuserid}`,
-        {},
-        { withCredentials: true }
-      );
-
-      if (response.status === 200) {
-        setfollowingmodal(true);
-      } else {
-        console.error("Error following user:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Error in handlefollowbutton:", error);
-    }
-  };
-
   const handleunfollowfollowbutton = async () => {
     try {
       const response = await axios.post(
@@ -163,27 +148,68 @@ const Userprofile = () => {
     fetchfollowerslist();
   }, [pfpuserid]);
 
+  const navigate_to_chat = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/handel_message_follow/${pfpuserid}`,
+        {},
+        { withCredentials: true }
+      );
+    } catch (error) {
+      console.error("Error in handlefollowbutton:", error);
+    }
+
+    navigate(`/chate/${userID}`);
+  };
+
+  const handlefollowbutton = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/handlefollowebutton/${pfpuserid}`,
+        {},
+        { withCredentials: true }
+      );
+
+      if (response.status === 200) {
+        setfollowingmodal(true);
+      } else {
+        console.error("Error following user:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error in handlefollowbutton:", error);
+    }
+  };
+
+  const handleSaveClick = async (imageId) => {
+    try {
+      await axios.post(
+        `http://localhost:5001/handleuploadsave/${imageId}`,
+        {},
+        { withCredentials: true }
+      );
+    } catch (error) {
+      console.log("Error saving image:", error);
+    }
+  };
+
   return (
-    <div>
+    <div className="bg-black min-h-screen">
       <Navbar />
       <div className="profile-container">
         <div className="flex items-center gap-4 ml-8 mb-6 p-5">
           <img
-            className="profile-image rounded-full"
+            className="profile-image rounded-full w-[200px] h-[200px] object-cover"
             src={profilepicture}
             alt="Profile"
-            width={200}
-            height={200}
           />
           <div className="ml-7">
             <div className="profile-info">
-              <h2 className="text-2xl font-bold">{username}</h2>
+              <h2 className="text-2xl text-white font-bold">{username}</h2>
             </div>
             <div
-              className="cursor-pointer hover:underline"
+              className="cursor-pointer text-white hover:underline decoration-yellow-400"
               onClick={handlefollowersclick}
             >
-              
               {followersnumber} Followers
             </div>
             <div>
@@ -196,12 +222,18 @@ const Userprofile = () => {
                 </button>
               ) : (
                 <button
-                  className="bg-red-600 p-3 mt-3 rounded-[25px] text-white font-bold hover:text-black"
+                  className="bg-yellow-400 p-3 mt-3 rounded-[25px] text-black font-bold hover:text-black"
                   onClick={handlefollowbutton}
                 >
                   Follow
                 </button>
               )}
+              <button
+                className="bg-yellow-400 p-3 ml-3 mt-3 rounded-[25px] text-black font-bold hover:text-black"
+                onClick={navigate_to_chat}
+              >
+                message
+              </button>
             </div>
           </div>
         </div>
@@ -215,11 +247,16 @@ const Userprofile = () => {
                   alt={`User uploaded ${index}`}
                   onClick={() => handleImageClick(image._id)}
                 />
-                <button className="absolute top-4 right-4 bg-red-600 rounded-full text-white p-3 opacity-0 group-hover:opacity-100 hover:bg-red-700 transition duration-150">
+                <button
+                  className="absolute top-4 right-4 bg-yellow-400 rounded-full text-black p-3 opacity-0 group-hover:opacity-100 hover:bg-yellow-500 transition duration-150"
+                  onClick={() => handleSaveClick(image._id)}
+                >
                   Save
                 </button>
-                <h1 className="text-base font-semibold mt-2">{image.title}</h1>
-                <p className="text-sm text-gray-600">{image.description}</p>
+                <h1 className="text-base text-white font-semibold mt-2">
+                  {image.title}
+                </h1>
+                <p className="text-sm text-white">{image.description}</p>
               </div>
             </div>
           ))}
@@ -246,7 +283,7 @@ const Userprofile = () => {
                       src={
                         followingpfpurl[index] ||
                         "https://cdn-icons-png.freepik.com/512/8861/8861091.png"
-                      } 
+                      }
                       alt={`Follower ${username}`}
                     />
                     <span className="font-semibold">{username}</span>

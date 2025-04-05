@@ -71,20 +71,20 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-red-100 flex items-center justify-center">
+    <div className="min-h-screen bg-black flex items-center justify-center">
       <div className="bg-white p-8 rounded-3xl shadow-lg w-96">
-        <h2 className="text-3xl font-bold text-center text-red-500 mb-6">
+        <h2 className="text-3xl font-bold text-center text-black mb-6">
           Login
         </h2>
         {errorMessage && (
-          <div className="mb-4 text-red-600 text-center bg-red-100 p-2 rounded-full">
+          <div className="mb-4 text-yellow-600 text-center bg-red-100 p-2 rounded-full">
             {errorMessage}
           </div>
         )}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
-            <label htmlFor="email" className="block text-red-700 font-medium">
+            <label htmlFor="email" className="block text-black font-medium">
               Email
             </label>
             <input
@@ -93,7 +93,7 @@ const Login = () => {
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-6 py-3 border border-red-300 rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full px-6 py-3 border border-black rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
               required
             />
           </div>
@@ -101,7 +101,7 @@ const Login = () => {
           <div className="mb-6">
             <label
               htmlFor="password"
-              className="block text-red-700 font-medium"
+              className="block text-black font-medium"
             >
               Password
             </label>
@@ -112,12 +112,12 @@ const Login = () => {
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-6 py-3 border border-red-300 rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="w-full px-6 py-3 border border-black rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 required
               />
               <button
                 type="button"
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-red-500 hover:text-red-700"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black "
                 onClick={togglePassword}
               >
                 {showPassword ? "Hide" : "Show"}
@@ -127,17 +127,17 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full py-3 bg-red-500 text-white rounded-full mt-6 hover:bg-red-600 hover:text-black"
+            className="w-full py-3 bg-yellow-400 text-black rounded-full mt-6 hover:bg-yellow-500 hover:text-black"
           >
             Login
           </button>
         </form>
 
-        <p className="mt-6 text-center text-red-600">
+        <p className="mt-6 text-center text-black">
           Don't have an account?{" "}
           <button
             onClick={handleSignupRedirect}
-            className="text-red-500 hover:text-red-700 font-medium"
+            className="text-yellow-500 hover:text-yellow-700 font-medium"
           >
             Sign Up
           </button>

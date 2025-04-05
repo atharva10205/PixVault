@@ -39,7 +39,7 @@ const Anime = () => {
   };
 
   return (
-    <div>
+    <div className="bg-black min-h-screen">
       <Navbar />
 
       <div className="flex items-center justify-center">
@@ -48,7 +48,7 @@ const Anime = () => {
              src="https://i.pinimg.com/736x/76/8d/16/768d16b32de5c1a638d90b6142552415.jpg" 
              className="w-[450px] h-[350px] object-cover rounded-[50px]" />
             <div className="absolute inset-0 bg-black opacity-50 rounded-[50px] pointer-events-none"></div>
-            <div className="absolute bottom-[20px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-semibold text-[30px]">
+            <div className="absolute bottom-[20px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-yellow-400 font-semibold text-[30px]">
               Anime
             </div>
         </div>
@@ -69,14 +69,14 @@ const Anime = () => {
                       onClick={() => handleImageClick(pin._id)}
                     />
                     <button
-                      className="absolute top-4 right-1 bg-red-600 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 hover:text-black font-sans cursor-pointer"
+                      className="absolute top-4 right-1 bg-yellow-400 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 hover:text-black font-sans cursor-pointer"
                       onClick={handlesaveclick}
                     >
                       Save
                     </button>
                   </>
                 )}
-                <h1 className="text-base font-semibold mt-2">
+                <h1 className="text-base font-semibold mt-2 text-white">
                   {pin.title || ""}
                 </h1>{" "}
                
