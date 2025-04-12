@@ -67,103 +67,103 @@ const Signup = () => {
   });
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <div className="bg-white p-8 rounded-3xl shadow-lg w-96 ">
-        <h2 className="text-3xl font-bold text-center text-black mb-6">Create an Account</h2>
-        {errorMessage && (
-          <div className="mb-4 text-black text-center bg-red-100 p-2 rounded-full">
-            {errorMessage}
-          </div>
-        )}
+    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+  <div className="bg-white p-6 sm:p-8 lg:p-10 rounded-3xl shadow-lg w-full max-w-md lg:w-96">
+    <h2 className="text-2xl sm:text-3xl font-bold text-center text-black mb-6">
+      Create an Account
+    </h2>
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-6">
-            <label htmlFor="username" className="block text-black font-medium">
-              Username
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-6 py-3 border border-black rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              required
-            />
-          </div>
+    {errorMessage && (
+      <div className="mb-4 text-black text-center bg-red-100 p-2 rounded-full text-sm sm:text-base">
+        {errorMessage}
+      </div>
+    )}
 
-          <div className="mb-6">
-            <label htmlFor="email" className="block text-black font-medium">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-6 py-3 border border-black rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              required
-            />
-          </div>
+    <form onSubmit={handleSubmit}>
+      <div className="mb-6">
+        <label htmlFor="username" className="block text-black font-medium">
+          Username
+        </label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="w-full px-4 py-3 border border-black rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          required
+        />
+      </div>
 
-          <div className="mb-6">
-            <label htmlFor="password" className="block text-black font-medium">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-6 py-3 border border-black rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                required
-              />
-              <button
-                type="button"
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black "
-                onClick={togglePassword}
-              >
-                {showPassword ? 'Hide' : 'Show'}
-              </button>
-            </div>
-          </div>
+      <div className="mb-6">
+        <label htmlFor="email" className="block text-black font-medium">
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full px-4 py-3 border border-black rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          required
+        />
+      </div>
 
+      <div className="mb-6">
+        <label htmlFor="password" className="block text-black font-medium">
+          Password
+        </label>
+        <div className="relative">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            id="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-3 border border-black rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            required
+          />
           <button
-            type="submit"
-            className="w-full py-3 bg-yellow-400 text-black rounded-full mt-6 hover:bg-yellow-500 hover:text-black"
+            type="button"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black text-sm"
+            onClick={togglePassword}
           >
-            Sign Up
-          </button>
-        </form>
-
-        <p className="mt-6 text-center text-black">
-          Already have an account?{' '}
-          <button
-            onClick={handleLoginRedirect}
-            className="text-yellow-500 hover:text-yellow-700 font-medium"
-          >
-            Login
-          </button>
-        </p>
-        
-        <div className="mt-6 text-center">
-          Or signup with Google:
-          <button
-            className="text-blue-400 hover:underline ml-2"
-            onClick={handleGoogleLogin}
-          >
-            Google Login
+            {showPassword ? 'Hide' : 'Show'}
           </button>
         </div>
-
-        
-
-        
       </div>
+
+      <button
+        type="submit"
+        className="w-full py-3 bg-yellow-400 text-black rounded-full mt-6 hover:bg-yellow-500 hover:text-black"
+      >
+        Sign Up
+      </button>
+    </form>
+
+    <p className="mt-6 text-center text-black text-sm sm:text-base">
+      Already have an account?{' '}
+      <button
+        onClick={handleLoginRedirect}
+        className="text-yellow-500 hover:text-yellow-700 font-medium"
+      >
+        Login
+      </button>
+    </p>
+
+    <div className="mt-6 text-center text-sm sm:text-base">
+      Or signup with Google:
+      <button
+        className="text-blue-500 hover:underline ml-2"
+        onClick={handleGoogleLogin}
+      >
+        Google Login
+      </button>
     </div>
+  </div>
+</div>
+
   );
 };
 

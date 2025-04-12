@@ -96,66 +96,64 @@ const Create = ({ onCreatePin }) => {
   return (
     <div className="bg-black min-h-screen">
       <Navbar />
-      <div>
-        <h1 className="mx-24 font-bold text-white text-xl bg-black my-10">
-          Create Post
-        </h1>
-      </div>
+      <div className="px-4 sm:px-24">
+        <h1 className="font-bold text-white text-xl my-10">Create Post</h1>
 
-      <div className="flex">
-        <div
-          onClick={handelinputarea}
-          className="mx-32 my-16 h-90 w-80 bg-zinc-800 rounded-[30px] cursor-pointer flex items-center justify-center"
-        >
-          {image ? (
-            <img
-              src={URL.createObjectURL(image)}
-              alt="Preview"
-              className="h-full w-full object-cover rounded-[30px]"
-            />
-          ) : (
-            <span className="text-yellow-400 border-amber-400">Upload</span>
-          )}
-          <input
-            type="file"
-            id="imageUpload"
-            onChange={handelimagechange}
-            style={{ display: "none" }}
-            required
-          />
-        </div>
-
-        <div className="mt-16">
-          <h1 className="text-yellow-400 ">Title</h1>
-          <div>
+        <div className="flex flex-col sm:flex-row gap-10 items-center sm:items-start">
+          {/* Upload Box */}
+          <div
+            onClick={handelinputarea}
+            className="w-full sm:w-80 h-72 bg-zinc-800 rounded-[30px] cursor-pointer flex items-center justify-center"
+          >
+            {image ? (
+              <img
+                src={URL.createObjectURL(image)}
+                alt="Preview"
+                className="h-full w-full object-cover rounded-[30px]"
+              />
+            ) : (
+              <span className="text-yellow-400 text-lg font-semibold">
+                Upload
+              </span>
+            )}
             <input
-              value={title}
-              onChange={handleTitleChange}
-              className="bg-zinc-800 w-96 h-10 p-2 text-white placeholder-gray-400  rounded-[10px]"
-              type="text"
-              placeholder="Add a Title"
+              type="file"
+              id="imageUpload"
+              onChange={handelimagechange}
+              style={{ display: "none" }}
+              required
             />
           </div>
 
-          <div className="mt-10">
-            <h1 className="text-yellow-400"> Description</h1>
-            <div>
+          {/* Input Fields */}
+          <div className="w-full sm:max-w-md">
+            <h1 className="text-yellow-400 mb-2">Title</h1>
+            <input
+              value={title}
+              onChange={handleTitleChange}
+              className="bg-zinc-800 w-full h-10 p-2 text-white placeholder-gray-400 rounded-[10px]"
+              type="text"
+              placeholder="Add a Title"
+            />
+
+            <div className="mt-6">
+              <h1 className="text-yellow-400 mb-2">Description</h1>
               <input
                 value={description}
                 onChange={handleDescriptionChange}
-                className="bg-zinc-800 w-96 h-10 text-white p-2 placeholder-gray-400  rounded-[10px]"
+                className="bg-zinc-800 w-full h-10 text-white p-2 placeholder-gray-400 rounded-[10px]"
                 type="text"
                 placeholder="Add the Description"
               />
             </div>
-          </div>
 
-          <button
-            onClick={handleSubmit}
-            className="mt-16 bg-yellow-400 text-black p-4 rounded-[25px]  font-bold"
-          >
-            Publish
-          </button>
+            <button
+              onClick={handleSubmit}
+              className="mt-7 mb-5 sm:w-[100px] bg-yellow-400 text-black w-full py-3 rounded-[25px] font-bold"
+            >
+              Publish
+            </button>
+          </div>
         </div>
       </div>
     </div>

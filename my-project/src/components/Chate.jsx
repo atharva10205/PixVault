@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { io } from "socket.io-client";
+import Navbar1 from "./Navbar1";
 
 const socket = io("http://localhost:5001");
 
@@ -258,162 +259,138 @@ const Chate = () => {
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
-      <Navbar />
-      <div className="flex flex-1">
-        <div className="p-4 border-r-2 border-gray-300 min-h-screen w-[500px] ">
-          <div className="flex items-center mb-4">
+    <Navbar1 />
+    <div className="flex flex-1">
+      {/* Sidebar - hidden on mobile */}
+      <div className="hidden md:block p-4 border-r-2 border-gray-300 min-h-screen w-full md:w-[500px]">
+        <div className="flex items-center mb-4">
+          <img
+            className="h-[50px] w-[50px] rounded-full"
+            src={
+              profilePictureUrl ||
+              "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
+            }
+            alt="Profile"
+          />
+          <h2 className="text-lg font-semibold font-sans text-white p-3 text-[33px]">
+            {username1 || "Your Username"}
+          </h2>
+        </div>
+  
+        <p className="text-lg font-semibold text-yellow-400 mt-4 mb-2">
+          Messages
+        </p>
+  
+        <div
+          className="flex flex-col space-y-3 overflow-y-auto"
+          style={{ maxHeight: "calc(100vh - 200px)" }}
+        >
+          {followers.map((follower, index) => (
+            <div
+              key={index}
+              onClick={() => navigate(`/chate/${follower.userId}`)}
+              className="h-[70px] w-full flex items-center p-3 mt-3 rounded-xl text-white hover:bg-yellow-400 hover:text-black"
+            >
+              <img
+                className="h-[50px] w-[50px] rounded-full mr-4"
+                src={
+                  follower.profilePictureUrl || "https://via.placeholder.com/50"
+                }
+                alt={follower.username}
+              />
+              <span>{follower.username}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+  
+      {/* Chat Section - always visible */}
+      <div className="flex flex-col w-full p-4 ml-[1px]">
+        <div className="flex items-center justify-between p-1 bg-black border-b-2 border-gray-300">
+          <div className="flex items-center p-1 bg-black">
             <img
-              className="h-[50px] w-[50px] rounded-full"
+              className="h-[50px] w-[50px] rounded-full mr-4"
               src={
-                profilePictureUrl ||
+                reciverPFP ||
                 "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
               }
               alt="Profile"
             />
-
-            <h2 className="text-lg font-semibold font-sans text-white p-3 text-[33px]">
-              {username1 || "Your Username"}
-            </h2>
-          </div>
-
-          <p className="text-lg font-semibold text-yellow-400 mt-4 mb-2">
-            Messages
-          </p>
-
-          <div
-            className="flex flex-col space-y-3 overflow-y-auto"
-            style={{ maxHeight: "calc(100vh - 200px)" }}
-          >
-            {followers.map((follower, index) => (
-              <div
-                key={index}
-                onClick={() => navigate(`/chate/${follower.userId}`)}
-                className="h-[70px] w-[470px] flex items-center p-3 mt-3 rounded-xl text-white hover:bg-yellow-400 hover:text-black"
-              >
-                <img
-                  className="h-[50px] w-[50px] rounded-full mr-4"
-                  src={
-                    follower.profilePictureUrl ||
-                    "https://via.placeholder.com/50"
-                  }
-                  alt={follower.username}
-                />
-
-                <span>{follower.username}</span>
-              </div>
-            ))}
+            <h2 className="text-xl text-white font-semibold ">{reciverNAME}</h2>
           </div>
         </div>
-
-        <div className="flex flex-col   w-full p-4 ml-[1px]">
-          <div className="flex items-center justify-between p-1 bg-balck border-b-2 border-gray-300">
-            <div className="flex items-center p-1 bg-balck ">
-              <img
-                className="h-[50px] w-[50px] rounded-full mr-4"
-                src={
-                  reciverPFP ||
-                  "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
-                }
-                alt="Profile"
-              />
-              <h2 className="text-xl text-white font-semibold ">
-                {reciverNAME}
-              </h2>
-            </div>
-            {/* 
-            <div className="flex flex-row ">
-              <div className="mr-5">
+  
+        <div
+          ref={chatContainerRef}
+          className="flex-grow bg-black-100 p-4 rounded-lg overflow-y-auto mt-4"
+          style={{ maxHeight: "calc(100vh - 300px)" }}
+        >
+          {allMessages.map((msg, index) => (
+            <div
+              key={index}
+              className={`mb-3 flex ${
+                msg.sendername === username1 ? "justify-end" : "justify-start"
+              }`}
+            >
+              <div
+                className={`flex items-center space-x-2 ${
+                  msg.sendername === username1 ? "flex-row-reverse" : ""
+                }`}
+              >
                 <img
-                  src="https://img.icons8.com/?size=100&id=11374&format=png&color=FFFFFF"
-                  className="h-[40px] cursor-pointer w-[40px]"
-                  alt=""
-                  onClick={handel_videocall_click}
+                  className="h-[30px] ml-3 w-[30px] rounded-full"
+                  src={
+                    (msg.sendername === username1
+                      ? profilePictureUrl
+                      : reciverPFP) ||
+                    "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
+                  }
+                  alt={
+                    msg.sendername === username1 ? username1 : reciverNAME
+                  }
                 />
-              </div>
-
-              <img
-                src="https://img.icons8.com/?size=100&id=9659&format=png&color=FFFFFF"
-                alt=""
-                className="h-[40px] cursor-pointer w-[40px]"
-              />
-            </div> */}
-          </div>
-
-          <div
-            ref={chatContainerRef}
-            className="flex-grow bg-black-100 p-4 rounded-lg overflow-y-auto mt-4"
-            style={{ maxHeight: "calc(100vh - 300px)" }}
-          >
-            {allMessages.map((msg, index) => (
-              <div key={index} className={`mb-3  flex  ${msg.sendername === username1 ? "justify-end" : "justify-start" }`}>
-                <div className={`flex items-center space-x-2  ${msg.sendername === username1 ? "flex-row-reverse" : "" }`}>
-                  <img
-                    className="h-[30px] ml-3 w-[30px] rounded-full"
-                    src={
-                      (msg.sendername === username1
-                        ? profilePictureUrl
-                        : reciverPFP) ||
-                      "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
-                    }
-                    alt={msg.sendername === username1 ? username1 : reciverNAME}
-                  />
-
-                  <div className="flex p-3 bg-gray-300 rounded-[30px]">
-                    <div
-                      className={`${
-                        msg.sendername === username1
-                          ? "text-right"
-                          : "text-left"
-                      }`}
-                    >
-                      {msg.message}
-                    </div>
+  
+                <div className="flex p-3 bg-gray-300 rounded-[30px]">
+                  <div
+                    className={`${
+                      msg.sendername === username1
+                        ? "text-right"
+                        : "text-left"
+                    }`}
+                  >
+                    {msg.message}
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-
-          <div className="mt-4 flex items-center">
-            <input
-              value={inputmessege}
-              onChange={(e) => setinputmessege(e.target.value)}
-              type="text"
-              className="bg-gray-200 h-[50px] rounded-[30px] w-full px-2"
-              placeholder="Type message"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleMessageSubmit(reciverNAME, inputmessege);
-                  setinputmessege("");
-                }
-              }}
-            />
-
-            {/* <input
-              type="file"
-              accept="image/*"
-              onChange={handle_images_input}
-              className="hidden"
-              id="imageInput"
-            />
-            <label htmlFor="imageInput">
-              <img
-                src="https://i.pinimg.com/474x/c4/09/7b/c4097be1d2a728b919e71102c5235cad.jpg"
-                className="h-[40px] w-[40px] mr-3 ml-2 rounded-full cursor-pointer"
-                alt="Upload"
-              />
-            </label> */}
-
-            <img
-              src="https://i.pinimg.com/736x/79/e6/25/79e6255960cbfb9f6a367e2ed434de9b.jpg"
-              onClick={() => handleMessageSubmit(reciverNAME, inputmessege)}
-              className="h-[40px] w-[34px]  ml-4 rounded-[100px] cursor-pointer scale-150"
-              alt=""
-            />
-          </div>
+            </div>
+          ))}
+        </div>
+  
+        <div className=" md:mt-4 mt-8  flex items-center">
+          <input
+            value={inputmessege}
+            onChange={(e) => setinputmessege(e.target.value)}
+            type="text"
+            className="bg-gray-200 h-[50px] rounded-[30px] w-full px-2"
+            placeholder="Type message"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleMessageSubmit(reciverNAME, inputmessege);
+                setinputmessege("");
+              }
+            }}
+          />
+          <img
+            src="https://i.pinimg.com/736x/79/e6/25/79e6255960cbfb9f6a367e2ed434de9b.jpg"
+            onClick={() => handleMessageSubmit(reciverNAME, inputmessege)}
+            className="h-[40px] w-[34px] ml-4 rounded-[100px] cursor-pointer scale-150"
+            alt=""
+          />
         </div>
       </div>
     </div>
+  </div>
+  
   );
 };
 

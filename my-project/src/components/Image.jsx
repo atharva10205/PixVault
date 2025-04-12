@@ -278,129 +278,132 @@ const Image = () => {
 
   return (
     <div className="bg-black">
-      <Navbar />
-      <div className="flex justify-center items-start p-4">
-        <div className="flex flex-row rounded-[30px] overflow-hidden w-full max-w-screen-lg">
-          <img
-            src={imageUrl}
-            alt="Uploaded"
-            className="w-[500px] h-auto object-cover"
-            ref={imageRef}
-            onLoad={handleImageLoad}
-          />
-          <div
-            className={`w-[500px] flex flex-col justify-between ${
-              isAuthenticated ? "bg-gray-300" : "bg-gray-200"
-            }`}
-          >
-            <div className="p-4 flex-grow">
-              <div className="flex items-center space-x-3 p-4">
-                <img
-                  src={
-                    profilepicture ||
-                    "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
-                  }
-                  alt="Profile"
-                  className="w-12 h-12 rounded-full"
-                />
-                <span
-                  className="text-lg font-semibold cursor-pointer"
-                  onClick={() => handleusernameclick(objectId)}
-                >
-                  {username}
-                </span>
-              </div>
-              <div className="flex flex-col ml-5 font-sans font-semibold">
-                <span>{title}</span>
-                <span>{description}</span>
-              </div>
-              <div
-                className="overflow-y-auto bg-white p-4 mt-4 rounded-lg shadow-md"
-                style={{ height: `${imageHeight}px` }}
+    <Navbar />
+    <div className="flex justify-center items-start p-4">
+      <div className="flex flex-col lg:flex-row rounded-[30px] overflow-hidden w-full max-w-screen-lg">
+        <img
+          src={imageUrl}
+          alt="Uploaded"
+          className="w-full lg:w-[500px] h-auto object-cover"
+          ref={imageRef}
+          onLoad={handleImageLoad}
+        />
+        <div
+          className={`w-full lg:w-[500px] flex flex-col justify-between ${
+            isAuthenticated ? "bg-gray-300" : "bg-gray-200"
+          }`}
+        >
+          <div className="p-4 flex-grow">
+            <div className="flex items-center space-x-3 p-4">
+              <img
+                src={
+                  profilepicture ||
+                  "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
+                }
+                alt="Profile"
+                className="w-12 h-12 rounded-full"
+              />
+              <span
+                className="text-lg font-semibold cursor-pointer"
+                onClick={() => handleusernameclick(objectId)}
               >
-                <h2 className="text-lg font-semibold mb-2">Comments</h2>
-                <div className="space-y-4">
-                  {FetchedComment.length > 0 ? (
-                    FetchedComment.map((comment, index) => (
-                      <div key={index} className="p-2 border-b flex space-x-4">
-                        <img
-                          src={comment.currentusersprofilepicture}
-                          className="h-9 w-9 rounded-full"
-                          alt={`${comment.fetchCommentusername}'s profile`}
-                        />
-                        <div>
-                          <strong>{comment.fetchCommentusername}:</strong>{" "}
-                          {comment.input}
-                        </div>
+                {username}
+              </span>
+            </div>
+            <div className="flex flex-col ml-5 font-sans font-semibold">
+              <span>{title}</span>
+              <span>{description}</span>
+            </div>
+            <div
+              className="overflow-y-auto bg-white p-4 mt-4 rounded-lg shadow-md"
+              style={{ maxHeight: `${imageHeight}px` }}
+            >
+              <h2 className="text-lg font-semibold mb-2">Comments</h2>
+              <div className="space-y-4">
+                {FetchedComment.length > 0 ? (
+                  FetchedComment.map((comment, index) => (
+                    <div key={index} className="p-2 border-b flex space-x-4">
+                      <img
+                        src={comment.currentusersprofilepicture}
+                        className="h-9 w-9 rounded-full"
+                        alt={`${comment.fetchCommentusername}'s profile`}
+                      />
+                      <div>
+                        <strong>{comment.fetchCommentusername}:</strong>{" "}
+                        {comment.input}
                       </div>
-                    ))
-                  ) : (
-                    <p className="text-gray-500">No comments yet.</p>
-                  )}
-                </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500">No comments yet.</p>
+                )}
               </div>
             </div>
-            <div className="p-4">
-              {isAuthenticated ? (
-                <div className="flex items-center space-x-3">
-                  <input
-                    type="text"
-                    className="flex-grow p-2 border rounded-[27px] border-slate-300"
-                    placeholder="Write a comment..."
-                    onChange={commentchange}
-                    value={commentinput}
-                  />
-                  <button
-                    className="p-2 bg-yellow-400 text-black rounded-[27px] font-sans text-[14px] hover:text-black"
-                    onClick={handlecommentpost}
-                  >
-                    Post
-                  </button>
-                </div>
-              ) : (
-                <div className="font-bold ml-2">Signup to comment</div>
-              )}
-            </div>
+          </div>
+          <div className="p-4">
+            {isAuthenticated ? (
+              <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-3">
+                <input
+                  type="text"
+                  className="flex-grow p-2 border rounded-[27px] border-slate-300 w-full"
+                  placeholder="Write a comment..."
+                  onChange={commentchange}
+                  value={commentinput}
+                />
+                <button
+                  className="p-2 bg-yellow-400 text-black rounded-[27px] font-sans text-[14px] hover:text-black w-full sm:w-auto"
+                  onClick={handlecommentpost}
+                >
+                  Post
+                </button>
+              </div>
+            ) : (
+              <div className="font-bold ml-2">Signup to comment</div>
+            )}
           </div>
         </div>
       </div>
-      <div
-        className={`text-center font-sans font-semibold p-3 text-xl ${
-          isAuthenticated ? "text-yellow-400" : ""
-        }`}
-      >
-        More to explore
-      </div>
-      <div className="columns-1 md:columns-2 lg:columns-5 gap-4 p-5">
-        {similarImages.map((image, index) => (
-          <div key={index} className="mb-4 break-inside-avoid">
-            <div className="block relative group">
-              {image.imageUrl && (
-                <>
-                  <img
-                    className="rounded-xl w-full object-cover cursor-pointer group-hover:brightness-75 transition duration-200"
-                    src={image.imageUrl}
-                    alt={image.title}
-                    onClick={() => handleImageClick(image._id)}
-                  />
-                  <button
-                    className={`absolute top-4 right-1 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 ${
-                      isAuthenticated
-                        ? "bg-yellow-400 hover:text-black"
-                        : "bg-red-600"
-                    }`}
-                  >
-                    Save
-                  </button>
-                </>
-              )}
-              <h1 className="text-base font-semibold mt-2">{image.title}</h1>
-              <p>{image.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
+  
+    <div
+      className={`text-center font-sans font-semibold p-3 text-xl ${
+        isAuthenticated ? "text-yellow-400" : ""
+      }`}
+    >
+      More to explore
+    </div>
+  
+    <div className="columns-1 sm:columns-2 lg:columns-5 gap-4 p-5">
+      {similarImages.map((image, index) => (
+        <div key={index} className="mb-4 break-inside-avoid">
+          <div className="block relative group">
+            {image.imageUrl && (
+              <>
+                <img
+                  className="rounded-xl w-full object-cover cursor-pointer group-hover:brightness-75 transition duration-200"
+                  src={image.imageUrl}
+                  alt={image.title}
+                  onClick={() => handleImageClick(image._id)}
+                />
+                <button
+                  className={`absolute top-4 right-1 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 ${
+                    isAuthenticated
+                      ? "bg-yellow-400 hover:text-black"
+                      : "bg-red-600"
+                  }`}
+                >
+                  Save
+                </button>
+              </>
+            )}
+            <h1 className="text-base font-semibold mt-2">{image.title}</h1>
+            <p>{image.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+  
   );
 };
 

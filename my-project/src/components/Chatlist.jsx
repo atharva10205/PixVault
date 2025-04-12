@@ -73,47 +73,48 @@ const Chatlist = () => {
 
   return (
     <div className="min-h-screen bg-black">
-      <Navbar />
-
-      <div className="p-4 border-r-2 border-gray-300 min-h-screen w-[500px] ">
-        <div className="flex items-center space-x-3">
-          <img
-            className="h-[60px] w-[60px] rounded-[300px]"
-            src={
-              profilePictureUrl ||
-              "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
-            }
-            alt="Profile"
-          />
-
-          <h2 className="text-lg font-semibold font-sans text-white text-[33px] flex items-center">
-            {username}
-          </h2>
-        </div>
-
-        <p className="text-white mt-7">Messages</p>
-
-        <div className="flex flex-col mb-6">
-          {followers.map((follower, index) => (
-            <div
-              key={index}
-              onClick={() => navigate(`/chate/${follower.userId}`)}
-              className="h-[70px] w-[470px] flex items-center p-3 mt-3 rounded-xl text-white hover:bg-yellow-400 hover:text-black"
-            >
-              <img
-                className="h-[50px] w-[50px] rounded-[60px] mr-4"
-                src={
-                  follower.profilePictureUrl ||
-                  "https://cdn-icons-png.freepik.com/512/8861/8861091.png"
-                }
-                alt={follower.username}
-              />
-              <span>{follower.username}</span>
-            </div>
-          ))}
-        </div>
+    <Navbar />
+  
+    <div className="p-4 border-r-0 md:border-r-2 border-gray-300 min-h-screen w-full md:w-[500px]">
+      <div className="flex items-center space-x-3">
+        <img
+          className="h-[50px] w-[50px] sm:h-[60px] sm:w-[60px] rounded-full"
+          src={
+            profilePictureUrl ||
+            "https://i.pinimg.com/736x/c9/3a/d1/c93ad1538753e96aa7a99de8b058ed60.jpg"
+          }
+          alt="Profile"
+        />
+  
+        <h2 className="text-xl sm:text-[33px] font-semibold font-sans text-white flex items-center">
+          {username}
+        </h2>
+      </div>
+  
+      <p className="text-white mt-7 text-base sm:text-lg">Messages</p>
+  
+      <div className="flex flex-col mb-6">
+        {followers.map((follower, index) => (
+          <div
+            key={index}
+            onClick={() => navigate(`/chate/${follower.userId}`)}
+            className="h-[70px] w-full flex items-center p-3 mt-3 rounded-xl text-white hover:bg-yellow-400 hover:text-black transition duration-200"
+          >
+            <img
+              className="h-[45px] w-[45px] sm:h-[50px] sm:w-[50px] rounded-full mr-4"
+              src={
+                follower.profilePictureUrl ||
+                "https://cdn-icons-png.freepik.com/512/8861/8861091.png"
+              }
+              alt={follower.username}
+            />
+            <span className="text-sm sm:text-base">{follower.username}</span>
+          </div>
+        ))}
       </div>
     </div>
+  </div>
+  
   );
 };
 

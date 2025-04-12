@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const Navbar = () => {
+const Navbar1 = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [ProfilePictureUrl, setProfilePictureUrl] = useState(null);
@@ -163,7 +163,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="fixed bottom-0 w-full bg-black flex justify-around items-center py-2 md:hidden z-50  ">
+      {/* <div className="fixed bottom-0 w-full bg-black flex justify-around items-center py-2 md:hidden z-50  ">
         <button
           onClick={handleHomeClick}
           className={`px-5 py-2 mb-1 mt-1 text-sm rounded-[30px] font-sans ${
@@ -202,9 +202,9 @@ const Navbar = () => {
         >
           Create
         </button>
-      </div>
+      </div> */}
     </>
   );
 };
 
-export default Navbar;
+export default Navbar1;

@@ -142,7 +142,7 @@ const Home = () => {
       )}
   
       {/* Floating Chat Button */}
-      <div className="fixed bottom-4 right-4 sm:right-6">
+      <div className="fixed md:bottom-4 bottom-20 right-4 sm:right-6">
         <button
           className="bg-black rounded-full p-2 shadow-lg hover:bg-yellow-300 transition duration-200"
           onClick={() => navigate("/chatlist")}
