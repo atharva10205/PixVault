@@ -14,12 +14,14 @@ const http = require("http");
 const { Server } = require("socket.io");
 const { json } = require("stream/consumers");
 const server = http.createServer(app);
-const client = redis.createClient();
 
+const client = redis.createClient({
+  url: "redis://red-cvu2c1s9c44c73frqkhg:6379" 
+});
 client.on("error", (err) => console.error("Redis Error:", err));
 
 (async () => {
-  await client.connect(); // Connect to Redis
+  await client.connect(); 
   console.log("Connected to Redis");
 })();
 
@@ -270,7 +272,6 @@ app.get("/images", async (req, res) => {
 
     const responseData = { images, check_if_more_images };
 
-    // Cache the response correctly
     await client.setEx(cacheKey, 22, JSON.stringify(responseData));
 
     res.status(200).json(responseData);
