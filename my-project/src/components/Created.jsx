@@ -81,8 +81,10 @@ const Created = () => {
   }
 
   return (
+    
     <div className="bg-black">
       <Profile />
+
       <div className="columns-2 bg-black md:columns-2 lg:columns-5 gap-4 p-5">
         {createdImages.map((image, index) => (
           <div key={index} className="mb-4 break-inside-avoid">

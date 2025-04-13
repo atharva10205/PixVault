@@ -165,7 +165,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="bg-black min-h-screen ">
+    <div className="bg-black h-[570px] ">
       <Navbar />
 
       <div className="bg-black">
@@ -180,7 +180,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="font-sans text-[30px] mt-[60px] text-white text-center">
+        <div className="font-sans text-[30px] mt-[60px]  text-white text-center">
           {username}
         </div>
 
@@ -212,7 +212,7 @@ const Profile = () => {
           )}
         </div>
 
-        <div className="flex justify-center items-center gap-7 mt-[40px] ">
+        <div className="flex justify-center   items-center gap-7 mt-[40px] ">
           <button
             className={`p-[13px] text-[15px] font-sans rounded-[30px] ${
               isActive("/created")
@@ -278,7 +278,10 @@ const Profile = () => {
                 onChange={handleprofilepictureinput}
               />
             </div>
+
+
           </div>
+          
         )}
 
 
@@ -316,6 +319,8 @@ const Profile = () => {
             </div>
           </div>
         )}
+
+<div className="h-[300px] bg-black"></div> 
       </div>
     </div>
   );
