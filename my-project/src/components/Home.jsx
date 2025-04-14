@@ -74,7 +74,7 @@ const Home = () => {
   const handleSaveClick = async (imageId) => {
     try {
       await axios.post(
-        `http://localhost:5001/handleuploadsave/${imageId}`,
+        `https://pixvault.onrender.com/handleuploadsave/${imageId}`,
         {},
         { withCredentials: true }
       );

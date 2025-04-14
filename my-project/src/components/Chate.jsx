@@ -5,7 +5,7 @@ import axios from "axios";
 import { io } from "socket.io-client";
 import Navbar1 from "./Navbar1";
 
-const socket = io("http://localhost:5001");
+const socket = io("https://pixvault.onrender.com:5001");
 
 const Chate = () => {
   const navigate = useNavigate();
