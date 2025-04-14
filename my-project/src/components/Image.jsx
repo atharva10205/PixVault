@@ -373,7 +373,7 @@ const Image = () => {
       More to explore
     </div>
   
-    <div className="columns-1 sm:columns-2 lg:columns-5 gap-4 p-5">
+    <div className="columns-2 sm:columns-2 lg:columns-5 gap-4 p-5">
       {similarImages.map((image, index) => (
         <div key={index} className="mb-4 break-inside-avoid">
           <div className="block relative group">
