@@ -366,7 +366,7 @@ const Chate = () => {
           ))}
         </div>
   
-        <div className=" md:mt-4 mt-8  flex items-center">
+        <div className=" md:mt-4  flex items-center">
           <input
             value={inputmessege}
             onChange={(e) => setinputmessege(e.target.value)}
