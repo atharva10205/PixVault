@@ -87,17 +87,7 @@ const Home = () => {
     <div className="relative bg-black min-h-screen">
       <Navbar />
   
-      {/* Loading Spinner */}
-      {loading && (
-        <div className="flex justify-center items-center min-h-screen">
-          <img
-            src="/loadingImg/PixVault.png"
-            alt="Loading..."
-            className="w-24 h-24 sm:w-32 sm:h-32"
-          />
-        </div>
-      )}
-  
+     
       {/* Pinterest-like Responsive Grid */}
       {!loading && (
         <div className="columns-2 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 px-2 sm:px-4 py-5">
