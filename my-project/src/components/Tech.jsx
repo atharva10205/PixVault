@@ -39,7 +39,7 @@ const Tech = () => {
   };
 
   return (
-    <div>
+    <div className="bg-black">
       <Navbar />
 
       <div className="flex items-center justify-center">
@@ -55,7 +55,7 @@ const Tech = () => {
         </div>
       </div>
 
-      <div className="columns-1 md:columns-2 lg:columns-5 gap-4 p-5">
+      <div className="columns-2 md:columns-2 lg:columns-5 gap-4 p-5">
         {images.length > 0 ? (
           images.map((pin, index) => (
             <div key={index} className="mb-4 break-inside-avoid">

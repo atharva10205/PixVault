@@ -40,67 +40,56 @@ const Food = () => {
 
   return (
 
-    <div className="flex items-center justify-center h-screen">
-    {isLoading ? (
-      <img src="/loading-image.png" alt="Loading..." className="w-32 h-32" />
-    ) : (
-      <div>
-        <h1 className="text-2xl font-bold">Welcome to the Homepage</h1>
-        {/* Your actual homepage content */}
-      </div>
-    )}
-  </div>
-);
-};
+  
     
-//     <div className="bg-black min-h-screen">
-//       <Navbar />
+    <div className="bg-black min-h-screen">
+      <Navbar />
 
-//       <div className="flex items-center justify-center">
-//       <div className="relative w-[450px] h-[450px] m-2 cursor-pointer rounded-lg shadow-lg">
-//             <img src="https://i.pinimg.com/736x/8f/a6/20/8fa620529e7f59ffc97dd7e35f728053.jpg" 
-//              className="w-[450px] h-[450px] object-cover rounded-[50px]" />
-//             <div className="absolute inset-0 bg-black opacity-50 rounded-[50px] pointer-events-none"></div>
-//             <div className="absolute bottom-[20px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-yellow-400 font-semibold text-[30px]">
-//               Food
-//             </div>
-//           </div>
-//       </div>
+      <div className="flex items-center justify-center">
+      <div className="relative w-[450px] h-[450px] m-2 cursor-pointer rounded-lg shadow-lg">
+            <img src="https://i.pinimg.com/736x/8f/a6/20/8fa620529e7f59ffc97dd7e35f728053.jpg" 
+             className="w-[450px] h-[450px] object-cover rounded-[50px]" />
+            <div className="absolute inset-0 bg-black opacity-50 rounded-[50px] pointer-events-none"></div>
+            <div className="absolute bottom-[20px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-yellow-400 font-semibold text-[30px]">
+              Food
+            </div>
+          </div>
+      </div>
 
-//       <div className="columns-1 md:columns-2 lg:columns-5 gap-4 p-5">
-//         {images.length > 0 ? (
-//           images.map((pin, index) => (
-//             <div key={index} className="mb-4 break-inside-avoid">
-//               <div className="block relative group">
-//                 {pin.imageUrl && (
-//                   <>
-//                     <img
-//                       className="rounded-xl w-full object-cover cursor-pointer group-hover:brightness-75 transition duration-200"
-//                       src={pin.imageUrl}
-//                       alt={pin.title || "Image"}
-//                       onClick={() => handleImageClick(pin._id)}
-//                     />
-//                     <button
-//                       className="absolute top-4 right-1 bg-yellow-400 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 hover:text-black font-sans cursor-pointer"
-//                       onClick={handlesaveclick}
-//                     >
-//                       Save
-//                     </button>
-//                   </>
-//                 )}
-//                 <h1 className="text-base text-white font-semibold mt-2">
-//                   {pin.title || ""}
-//                 </h1>{" "}
-//                 <p>{pin.description || ""}</p>{" "}
-//               </div>
-//             </div>
-//           ))
-//         ) : (
-//           <p>No images  found</p>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
+      <div className="columns-2 md:columns-2 lg:columns-5 gap-4 p-5">
+        {images.length > 0 ? (
+          images.map((pin, index) => (
+            <div key={index} className="mb-4 break-inside-avoid">
+              <div className="block relative group">
+                {pin.imageUrl && (
+                  <>
+                    <img
+                      className="rounded-xl w-full object-cover cursor-pointer group-hover:brightness-75 transition duration-200"
+                      src={pin.imageUrl}
+                      alt={pin.title || "Image"}
+                      onClick={() => handleImageClick(pin._id)}
+                    />
+                    <button
+                      className="absolute top-4 right-1 bg-yellow-400 rounded-[25px] text-white px-5 py-3 opacity-0 group-hover:opacity-100 hover:text-black font-sans cursor-pointer"
+                      onClick={handlesaveclick}
+                    >
+                      Save
+                    </button>
+                  </>
+                )}
+                <h1 className="text-base text-white font-semibold mt-2">
+                  {pin.title || ""}
+                </h1>{" "}
+                <p>{pin.description || ""}</p>{" "}
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No images  found</p>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default Food;
