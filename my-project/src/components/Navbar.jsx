@@ -18,6 +18,10 @@ const Navbar = () => {
     clearTimeout(timer);
     clickCount++;
 
+    if (clickCount === 1) {
+     navigate('/home')
+    }
+
     if (clickCount === 7) {
       audio.play();
       clickCount = 0;
