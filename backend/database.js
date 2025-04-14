@@ -625,8 +625,8 @@ router.post("/Signup", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "Strict",
+      secure: true,         
+      sameSite: "None",      
     });
 
     res.status(201).json({ message: "User registered successfully" });
@@ -647,9 +647,10 @@ router.post("/login", async (req, res) => {
       });
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
-        sameSite: "Strict",
+        secure: true,         
+        sameSite: "None",      
       });
+      
 
       res.status(201).json({ message: "User logged in successfully" });
     } else {
@@ -1457,8 +1458,8 @@ app.post("/sendaccestoken/:accesstoken", async (req, res) => {
       });
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
-        sameSite: "Strict",
+        secure: true,         
+        sameSite: "None",      
       });
 
       return res.status(201).json({ message: "User registered successfully" });
@@ -1475,8 +1476,8 @@ app.post("/sendaccestoken/:accesstoken", async (req, res) => {
 
       res.cookie("token", token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "Strict",
+        secure: true,         
+        sameSite: "None",      
       });
 
       res.status(201).json({ message: "User registered successfully" });
