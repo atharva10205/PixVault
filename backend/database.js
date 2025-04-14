@@ -25,7 +25,7 @@ client.on("error", (err) => console.error("Redis Error:", err));
   console.log("Connected to Redis");
 })();
 
-server.listen(5001, () => {
+server.listen("https://pixvault.onrender.com", () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });
 

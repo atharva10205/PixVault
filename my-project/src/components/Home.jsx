@@ -11,7 +11,6 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
-  // Function to shuffle images randomly
   const shuffleArray = (array) => {
     return array.sort(() => Math.random() - 0.5);
   };
