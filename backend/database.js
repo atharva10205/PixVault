@@ -134,9 +134,9 @@ const messageSchema = new mongoose.Schema(
 const Message = mongoose.model("Message", messageSchema);
 
 const s3 = new AWS.S3({
-  accessKeyId: "AKIAR3HUOQNDUX4JN6H2",
-  secretAccessKey: "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",
-  region: "ap-south-1",
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
 });
 
 const storage = multer.memoryStorage();

@@ -9,7 +9,7 @@ const Navbar = () => {
   const [ProfilePictureUrl, setProfilePictureUrl] = useState(null);
   const [input, setinput] = useState();
   const [searchedimages, setsearchedimages] = useState();
-  const audio = new Audio("public/Audio/mmaaAAAaah (1).mp3");
+  const audio = new Audio("/Audio/mmaaAAAaah (1).mp3");
 
   let clickCount = 0;
   let timer;
