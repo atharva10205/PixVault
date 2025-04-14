@@ -21,7 +21,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/Signup', { username, email, password },{ withCredentials: true },{});
+      const response = await axios.post('https://pixvault.onrender.com/Signup', { username, email, password },{ withCredentials: true },{});
 
       if (response.status === 201) {
         navigate('/Home');
@@ -43,7 +43,7 @@ const Signup = () => {
       const sendaccestoken = async () => {
         try {
           const response = await axios.post(
-            `http://localhost:5000/sendaccestoken/${accesstoken}`,
+            `https://pixvault.onrender.com/sendaccestoken/${accesstoken}`,
             {},
             { withCredentials: true }
           );

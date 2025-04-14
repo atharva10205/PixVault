@@ -12,7 +12,7 @@ const Created = () => {
   useEffect(() => {
     const verifytoken = async () => {
       const response = await axios.post(
-        "http://localhost:5000/verify",
+        "https://pixvault.onrender.com/verify",
         {},
         { withCredentials: true }
       );
@@ -32,7 +32,7 @@ const Created = () => {
 
     try {
       const response = await axios.delete(
-        `http://localhost:5000/delete/${imageId}`,
+        `https://pixvault.onrender.com/delete/${imageId}`,
         { withCredentials: true }
       );
 
@@ -44,7 +44,7 @@ const Created = () => {
 
   const fetchCreatedImages = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/created", {
+      const response = await axios.get("https://pixvault.onrender.com/created", {
         withCredentials: true,
       });
       setCreatedImages(response.data);

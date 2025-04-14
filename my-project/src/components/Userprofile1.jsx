@@ -25,7 +25,7 @@ const Userprofile1 = () => {
     const fetchViewersProfilePhoto = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchviewersprofilepicture1/${userId}`,
+          `https://pixvault.onrender.com/fetchviewersprofilepicture1/${userId}`,
           { withCredentials: true }
         );
 
@@ -45,7 +45,7 @@ const Userprofile1 = () => {
     const fetchImages = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchImages/${userId}`,
+          `https://pixvault.onrender.com/fetchImages/${userId}`,
           { withCredentials: true }
         );
 
@@ -64,7 +64,7 @@ const Userprofile1 = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/checkifFollowing1/${userId}`,
+          `https://pixvault.onrender.com/checkifFollowing1/${userId}`,
           { withCredentials: true }
         );
 
@@ -90,7 +90,7 @@ const Userprofile1 = () => {
     const cheaknumberoffollowers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/cheaknumberoffollowers/${userId}`,
+          `https://pixvault.onrender.com/cheaknumberoffollowers/${userId}`,
           { withCredentials: true }
         );
         setfollowersnumber(response.data.count);
@@ -104,7 +104,7 @@ const Userprofile1 = () => {
   const handleImageClick = async (imageId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getobjectid/${imageId}`,
+        `https://pixvault.onrender.com/getobjectid/${imageId}`,
         {},
         { withCredentials: true }
       );
@@ -118,7 +118,7 @@ const Userprofile1 = () => {
   const handlefollowbutton = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/handlefollowebutton1/${userId}`,
+        `https://pixvault.onrender.com/handlefollowebutton1/${userId}`,
         {},
         { withCredentials: true }
       );
@@ -136,7 +136,7 @@ const Userprofile1 = () => {
   const handleunfollowfollowbutton = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/handleunfollowfollowbutton1/${userId}`,
+        `https://pixvault.onrender.com/handleunfollowfollowbutton1/${userId}`,
         {},
         { withCredentials: true }
       );
@@ -163,7 +163,7 @@ const Userprofile1 = () => {
     const fetchfollowerslist = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchfollowerslist11/${userId}`,
+          `https://pixvault.onrender.com/fetchfollowerslist11/${userId}`,
           { withCredentials: true }
         );
         setFollowingPfpUrl(response.data.profilePictureUrls);
@@ -178,7 +178,7 @@ const Userprofile1 = () => {
   const navigate_to_chat = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/handel_message_follow1/${userId}`,
+        `https://pixvault.onrender.com/handel_message_follow1/${userId}`,
         {},
         { withCredentials: true }
       );

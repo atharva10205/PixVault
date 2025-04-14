@@ -13,7 +13,7 @@ const Accounts = () => {
     const importListOfSearched = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/import_list_of_searched/${input}`,
+          `https://pixvault.onrender.com/import_list_of_searched/${input}`,
           { withCredentials: true }
         );
         console.log(response.data);
@@ -32,7 +32,7 @@ const Accounts = () => {
   const handleAccountClick = (username, _id) => {
 
     // const get_correct_userID = async()=>{
-    //   const response = await axios.get(`http://localhost:5000/get_correct_userID/${_id}`)
+    //   const response = await axios.get(`https://pixvault.onrender.com/get_correct_userID/${_id}`)
     //   console.log(response)
     //   await navigate(`/UserProfile_/${username}/${response.data._id}`);
 

@@ -22,7 +22,7 @@ const Profile = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:5000/verify", {}, { withCredentials: true })
+      .post("https://pixvault.onrender.com/verify", {}, { withCredentials: true })
       .then(() => setIsAuthenticated(true))
       .catch(() => setIsAuthenticated(false));
   }, []);
@@ -31,7 +31,7 @@ const Profile = () => {
     const fetchUsername = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/username",
+          "https://pixvault.onrender.com/username",
           {},
           { withCredentials: true }
         );
@@ -46,7 +46,7 @@ const Profile = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/logout",
+        "https://pixvault.onrender.com/logout",
         {},
         { withCredentials: true }
       );
@@ -89,7 +89,7 @@ const Profile = () => {
       formData.append("profilePicture", ProfilePicturechange);
 
       const response = await axios.post(
-        "http://localhost:5000/uploadprofilephoto",
+        "https://pixvault.onrender.com/uploadprofilephoto",
         formData,
         {
           withCredentials: true,
@@ -109,7 +109,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchprofilephoto = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/profilephoto", {
+        const response = await axios.get("https://pixvault.onrender.com/profilephoto", {
           withCredentials: true,
         });
         if (response.data.imageUrl) {
@@ -129,7 +129,7 @@ const Profile = () => {
     const cheaknumberoffollowers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/cheaknumberoffollowers/${userId}`,
+          `https://pixvault.onrender.com/cheaknumberoffollowers/${userId}`,
           { withCredentials: true }
         );
         setfollowersnumber(response.data.count);
@@ -144,7 +144,7 @@ const Profile = () => {
     const fetchfollowerslist = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchfollowerslist/${userId}`,
+          `https://pixvault.onrender.com/fetchfollowerslist/${userId}`,
           { withCredentials: true }
         );
         setFollowingPfpUrl(response.data.profilePictureUrls);

@@ -13,7 +13,7 @@ const Save = () => {
   useEffect(() => {
     const verifytoken = async()=>{
 
-      const response = await axios.post("http://localhost:5000/verify",{},{withCredentials:true});
+      const response = await axios.post("https://pixvault.onrender.com/verify",{},{withCredentials:true});
       if(response.status === 200){setIsAuthenticated(true)}else{setIsAuthenticated(false)};
     }
     verifytoken();
@@ -23,7 +23,7 @@ const Save = () => {
   useEffect(() => {
   const fetchsaved = async()=>{
     try{
-      const response = await axios.get("http://localhost:5000/fetchsave",{withCredentials:true});
+      const response = await axios.get("https://pixvault.onrender.com/fetchsave",{withCredentials:true});
       setsavedimages(response.data);
     }catch(error){
       console.log("error in frontend fetchsaved")
@@ -34,7 +34,7 @@ const Save = () => {
 
   const handleImageClick = async (imageId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/getobjectid/${imageId}`, { withCredentials: true });
+      const response = await axios.get(`https://pixvault.onrender.com/getobjectid/${imageId}`, { withCredentials: true });
       const objectId = response.data.objectId;
       navigate(`/image/${objectId}`);
 
@@ -45,7 +45,7 @@ const Save = () => {
 
   const handleremoveclick = async (objectId) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/removesave/${objectId}`, {
+      const response = await axios.delete(`https://pixvault.onrender.com/removesave/${objectId}`, {
         withCredentials: true,
       });
       if (response.status === 200) {

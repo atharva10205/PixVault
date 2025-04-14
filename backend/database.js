@@ -31,7 +31,7 @@ server.listen(5001, () => {
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://pixvault-np0u.onrender.com",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -144,7 +144,7 @@ const upload = multer({ storage });
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://pixvault-np0u.onrender.com",
     credentials: true,
     optionsSuccessStatus: 200,
   })

@@ -12,7 +12,7 @@ const Searchedimages = () => {
     const fetchsearchedimages = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/search/${input}`,
+          `https://pixvault.onrender.com/search/${input}`,
           { withCredentials: true }
         );
         setsearchedimages(response.data);
@@ -26,7 +26,7 @@ const Searchedimages = () => {
   const handleImageClick = async (imageId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getobjectid/${imageId}`,
+        `https://pixvault.onrender.com/getobjectid/${imageId}`,
         { withCredentials: true }
       );
       const objectId = response.data.objectId;

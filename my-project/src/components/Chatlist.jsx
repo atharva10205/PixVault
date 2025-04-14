@@ -14,7 +14,7 @@ const Chatlist = () => {
     const fetchUsername = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/username",
+          "https://pixvault.onrender.com/username",
           {},
           { withCredentials: true }
         );
@@ -29,7 +29,7 @@ const Chatlist = () => {
   useEffect(() => {
     const fetchProfilePhoto = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/profilephoto", {
+        const response = await axios.get("https://pixvault.onrender.com/profilephoto", {
           withCredentials: true,
         });
         if (response.data.imageUrl) {
@@ -48,7 +48,7 @@ const Chatlist = () => {
     const fetchFollowersList = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchfollowerslist111/${userId}`,
+          `https://pixvault.onrender.com/fetchfollowerslist111/${userId}`,
           { withCredentials: true }
         );
 

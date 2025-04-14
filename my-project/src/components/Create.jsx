@@ -13,7 +13,7 @@ const Create = ({ onCreatePin }) => {
   useEffect(() => {
     const verifytoken = async () => {
       const response = await axios.post(
-        "http://localhost:5000/verify",
+        "https://pixvault.onrender.com/verify",
         {},
         { withCredentials: true }
       );
@@ -53,7 +53,7 @@ const Create = ({ onCreatePin }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/upload",
+        "https://pixvault.onrender.com/upload",
         formdata,
         { withCredentials: true }
       );

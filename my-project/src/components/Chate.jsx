@@ -49,7 +49,7 @@ const Chate = () => {
     const fetchUsername = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/username",
+          "https://pixvault.onrender.com/username",
           {},
           { withCredentials: true }
         );
@@ -64,7 +64,7 @@ const Chate = () => {
   useEffect(() => {
     const fetchProfilePhoto = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/profilephoto", {
+        const response = await axios.get("https://pixvault.onrender.com/profilephoto", {
           withCredentials: true,
         });
 
@@ -90,7 +90,7 @@ const Chate = () => {
     const fetchFollowersList = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchfollowerslist111/${userId}`,
+          `https://pixvault.onrender.com/fetchfollowerslist111/${userId}`,
           { withCredentials: true }
         );
 
@@ -117,7 +117,7 @@ const Chate = () => {
     const fetchclickedfollowersinfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchclickedfollowersinfo/${followerId}`,
+          `https://pixvault.onrender.com/fetchclickedfollowersinfo/${followerId}`,
           { withCredentials: true }
         );
         setreciverPFP(response.data.imageUrl);
@@ -141,7 +141,7 @@ const Chate = () => {
     const fetchcurrentuserID = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/fetchcurrentuserID",
+          "https://pixvault.onrender.com/fetchcurrentuserID",
           {},
           { withCredentials: true }
         );
@@ -200,7 +200,7 @@ const Chate = () => {
 
       // Save the message to the database
       const response = await axios.post(
-        `http://localhost:5000/PostMessageToDatabase/${reciverNAME}/${message}/${followerId}/${roomID}`,
+        `https://pixvault.onrender.com/PostMessageToDatabase/${reciverNAME}/${message}/${followerId}/${roomID}`,
         {},
         { withCredentials: true }
       );
@@ -220,7 +220,7 @@ const Chate = () => {
   useEffect(() => {
     const fetchmesseges = async () => {
       const response = await axios.get(
-        `http://localhost:5000/fetchMessages/${roomID}`,
+        `https://pixvault.onrender.com/fetchMessages/${roomID}`,
         { withCredentials: true }
       );
       setmesseges1(response.data);
@@ -244,7 +244,7 @@ const Chate = () => {
   //   const formData = new FormData();
   //   formData.append("image", file);
 
-  //   const response = await axios.post("http://localhost:5000/chate_image", {
+  //   const response = await axios.post("https://pixvault.onrender.com/chate_image", {
   //     withCredentials: true,
   //     formData,
   //   });

@@ -26,7 +26,7 @@ const Image = () => {
   useEffect(() => {
     const verifytoken = async () => {
       const response = await axios.post(
-        "http://localhost:5000/verify",
+        "https://pixvault.onrender.com/verify",
         {},
         { withCredentials: true }
       );
@@ -42,7 +42,7 @@ const Image = () => {
   useEffect(() => {
     const verifytoken = async () => {
       const response = await axios.post(
-        "http://localhost:5000/verify",
+        "https://pixvault.onrender.com/verify",
         {},
         { withCredentials: true }
       );
@@ -58,7 +58,7 @@ const Image = () => {
   useEffect(() => {
     const fetchuserid = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/fetchuserid", {
+        const response = await axios.get("https://pixvault.onrender.com/fetchuserid", {
           withCredentials: true,
         });
         setuserid(response.data.userId);
@@ -73,7 +73,7 @@ const Image = () => {
     const fetchImageUrl = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getimageUrl/${objectId}`
+          `https://pixvault.onrender.com/getimageUrl/${objectId}`
         );
         setImageUrl(response.data.imageUrl);
       } catch (error) {
@@ -87,7 +87,7 @@ const Image = () => {
     const fetchusername = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchusername/${objectId}`
+          `https://pixvault.onrender.com/fetchusername/${objectId}`
         );
         setusername(response.data.username);
       } catch (error) {
@@ -101,7 +101,7 @@ const Image = () => {
     const fetchpfp = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchpfp/${objectId}`
+          `https://pixvault.onrender.com/fetchpfp/${objectId}`
         );
         setprofilepicture(response.data.imageUrl);
       } catch (error) {
@@ -115,7 +115,7 @@ const Image = () => {
     const fetchtitle = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchtitle/${objectId}`,
+          `https://pixvault.onrender.com/fetchtitle/${objectId}`,
           { withCredentials: true }
         );
         settitle(response.data.title);
@@ -130,7 +130,7 @@ const Image = () => {
     const fetchdescription = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchdescription/${objectId}`,
+          `https://pixvault.onrender.com/fetchdescription/${objectId}`,
           { withCredentials: true }
         );
         setdescription(response.data.description);
@@ -145,7 +145,7 @@ const Image = () => {
     const fetchSimilarImages = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getsimillarimages/${objectId}`
+          `https://pixvault.onrender.com/getsimillarimages/${objectId}`
         );
         setSimilarImages(response.data);
       } catch (error) {
@@ -158,7 +158,7 @@ const Image = () => {
   useEffect(() => {
     const fetchcurentusersusername = async () => {
       const response = await axios.get(
-        "http://localhost:5000/fetchcurentusersusername",
+        "https://pixvault.onrender.com/fetchcurentusersusername",
         { withCredentials: true }
       );
       setfetchCommentusername(response.data.username);
@@ -170,7 +170,7 @@ const Image = () => {
     const fetchcurentusersprofilepicture = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/fetchcurentusersprofilepicture",
+          "https://pixvault.onrender.com/fetchcurentusersprofilepicture",
           { withCredentials: true }
         );
   
@@ -195,7 +195,7 @@ const Image = () => {
   const handleImageClick = async (imageId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getobjectid/${imageId}`,
+        `https://pixvault.onrender.com/getobjectid/${imageId}`,
         { withCredentials: true }
       );
       const objectId = response.data.objectId;
@@ -213,7 +213,7 @@ const Image = () => {
   const handlecommentpost = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/putcommentinDB",
+        "https://pixvault.onrender.com/putcommentinDB",
         {
           objectId,
           commentinput,
@@ -243,7 +243,7 @@ const Image = () => {
     const fetchcomments = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchcomments/${objectId}`,
+          `https://pixvault.onrender.com/fetchcomments/${objectId}`,
           { withCredentials: true }
         );
 

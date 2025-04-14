@@ -25,7 +25,7 @@ const Userprofile = () => {
     const fetchViewersProfile = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchviewersprofilepicture/${e}`,
+          `https://pixvault.onrender.com/fetchviewersprofilepicture/${e}`,
           { withCredentials: true }
         );
 
@@ -55,7 +55,7 @@ const Userprofile = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/checkifFollowing/${pfpuserid}`,
+          `https://pixvault.onrender.com/checkifFollowing/${pfpuserid}`,
           { withCredentials: true }
         );
 
@@ -81,7 +81,7 @@ const Userprofile = () => {
     const cheaknumberoffollowers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/cheaknumberoffollowers/${pfpuserid}`,
+          `https://pixvault.onrender.com/cheaknumberoffollowers/${pfpuserid}`,
           { withCredentials: true }
         );
         setfollowersnumber(response.data.count);
@@ -95,7 +95,7 @@ const Userprofile = () => {
   const handleImageClick = async (imageId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getobjectid/${imageId}`,
+        `https://pixvault.onrender.com/getobjectid/${imageId}`,
         {},
         { withCredentials: true }
       );
@@ -109,7 +109,7 @@ const Userprofile = () => {
   const handleunfollowfollowbutton = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/handleunfollowfollowbutton/${pfpuserid}`,
+        `https://pixvault.onrender.com/handleunfollowfollowbutton/${pfpuserid}`,
         {},
         { withCredentials: true }
       );
@@ -136,7 +136,7 @@ const Userprofile = () => {
     const fetchfollowerslist = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/fetchfollowerslist/${pfpuserid}`,
+          `https://pixvault.onrender.com/fetchfollowerslist/${pfpuserid}`,
           { withCredentials: true }
         );
         setFollowingPfpUrl(response.data.profilePictureUrls);
@@ -151,7 +151,7 @@ const Userprofile = () => {
   const navigate_to_chat = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/handel_message_follow/${pfpuserid}`,
+        `https://pixvault.onrender.com/handel_message_follow/${pfpuserid}`,
         {},
         { withCredentials: true }
       );
@@ -165,7 +165,7 @@ const Userprofile = () => {
   const handlefollowbutton = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/handlefollowebutton/${pfpuserid}`,
+        `https://pixvault.onrender.com/handlefollowebutton/${pfpuserid}`,
         {},
         { withCredentials: true }
       );

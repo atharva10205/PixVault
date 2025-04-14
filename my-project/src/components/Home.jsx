@@ -39,7 +39,7 @@ const Home = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/images?page=${page}&limit=${limit}`
+          `https://pixvault.onrender.com/images?page=${page}&limit=${limit}`
         );
 
         let newImages = response.data.images;
@@ -61,7 +61,7 @@ const Home = () => {
   const handleImageClick = async (imageId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getobjectid/${imageId}`,
+        `https://pixvault.onrender.com/getobjectid/${imageId}`,
         { withCredentials: true }
       );
       const objectId = response.data.objectId;

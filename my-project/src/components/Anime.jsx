@@ -13,7 +13,7 @@ const Anime = () => {
     const fetchanimeimages = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/fetchanimeimages"
+          "https://pixvault.onrender.com/fetchanimeimages"
         );
         setImages(response.data);
       } catch (error) {
@@ -25,7 +25,7 @@ const Anime = () => {
  
   const handleImageClick = async (imageId) => {
     try {
-      const response = await axios.get(`http://localhost:5000:5000/getobjectid/${imageId}`, { withCredentials: true });
+      const response = await axios.get(`https://pixvault.onrender.com:5000/getobjectid/${imageId}`, { withCredentials: true });
       const objectId = response.data.objectId;
       navigate(`/image/${objectId}`);
 

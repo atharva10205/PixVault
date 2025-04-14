@@ -38,7 +38,7 @@ const Navbar1 = () => {
       navigate(`/search/${input}`);
 
       const response = await axios.get(
-        `http://localhost:5000/search/${input}`,
+        `https://pixvault.onrender.com/search/${input}`,
         { withCredentials: true }
       );
       setsearchedimages(response.data);
@@ -66,7 +66,7 @@ const Navbar1 = () => {
   useEffect(() => {
     const fetchprofilephoto = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/profilephoto", {
+        const response = await axios.get("https://pixvault.onrender.com/profilephoto", {
           withCredentials: true,
         });
         if (response.data.imageUrl) {

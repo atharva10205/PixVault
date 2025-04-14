@@ -11,7 +11,7 @@ const Food = () => {
     const fetchFoodimages = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/fetchFoodimages"
+          "https://pixvault.onrender.com/fetchFoodimages"
         );
         setImages(response.data);
       } catch (error) {
@@ -24,7 +24,7 @@ const Food = () => {
   const handleImageClick = async (imageId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getobjectid/${imageId}`,
+        `https://pixvault.onrender.com/getobjectid/${imageId}`,
         { withCredentials: true }
       );
       const objectId = response.data.objectId;

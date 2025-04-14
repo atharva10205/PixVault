@@ -24,7 +24,7 @@ const Login = () => {
       const sendaccestoken = async () => {
         try {
           const response = await axios.post(
-            `http://localhost:5000/sendaccestoken/${accesstoken}`,
+            `https://pixvault.onrender.com/sendaccestoken/${accesstoken}`,
             {},
             { withCredentials: true }
           );
@@ -53,7 +53,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/login",
+        "https://pixvault.onrender.com/login",
         { email, password },
         { withCredentials: true }
       );
